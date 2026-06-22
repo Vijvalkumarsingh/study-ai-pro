@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ScheduleRouteImport } from './routes/schedule'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SubjectsAddRouteImport } from './routes/subjects.add'
 
 const ScheduleRoute = ScheduleRouteImport.update({
   id: '/schedule',
   path: '/schedule',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,30 +37,34 @@ const SubjectsAddRoute = SubjectsAddRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/schedule' | '/subjects/add'
+  fullPaths: '/' | '/progress' | '/schedule' | '/subjects/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/schedule' | '/subjects/add'
-  id: '__root__' | '/' | '/schedule' | '/subjects/add'
+  to: '/' | '/progress' | '/schedule' | '/subjects/add'
+  id: '__root__' | '/' | '/progress' | '/schedule' | '/subjects/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProgressRoute: typeof ProgressRoute
   ScheduleRoute: typeof ScheduleRoute
   SubjectsAddRoute: typeof SubjectsAddRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/schedule'
       fullPath: '/schedule'
       preLoaderRoute: typeof ScheduleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProgressRoute: ProgressRoute,
   ScheduleRoute: ScheduleRoute,
   SubjectsAddRoute: SubjectsAddRoute,
 }
