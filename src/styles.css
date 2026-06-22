@@ -177,6 +177,10 @@
   box-shadow: var(--shadow-card);
 }
 
+@utility shadow-hero {
+  box-shadow: var(--shadow-hero);
+}
+
 @utility hover-lift {
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   &:hover {
