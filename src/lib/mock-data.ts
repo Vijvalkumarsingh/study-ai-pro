@@ -16,10 +16,10 @@ export interface Subject {
 }
 
 export const user = {
-  name: "Aarav",
-  fullName: "Aarav Sharma",
-  email: "aarav.sharma@university.edu",
-  initials: "AS",
+  name: "Vijval",
+  fullName: "Vijval Sharma",
+  email: "vijval.sharma@university.edu",
+  initials: "VS",
   streak: 14,
   level: 7,
   xp: 2840,
