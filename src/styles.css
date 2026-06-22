@@ -181,8 +181,8 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   &:hover {
     transform: translateY(-2px);
-    border-color: oklch(1 0 0 / 16%);
-    box-shadow: 0 12px 40px -12px oklch(0.66 0.22 295 / 30%);
+    border-color: rgba(79, 70, 229, 0.4);
+    box-shadow: 0 12px 40px -12px rgba(79, 70, 229, 0.3);
   }
 }
 
@@ -195,16 +195,50 @@
   50% { transform: translateY(-6px); }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 oklch(0.66 0.22 295 / 50%); }
-  50% { box-shadow: 0 0 0 12px oklch(0.66 0.22 295 / 0%); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5); }
+  50% { box-shadow: 0 0 0 12px rgba(79, 70, 229, 0); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes bar-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @utility animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out both;
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @utility animate-float {
   animation: float 4s ease-in-out infinite;
 }
 @utility animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+@utility animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@utility animate-bar-grow {
+  transform-origin: bottom;
+  animation: bar-grow 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered children */
+@utility stagger-children {
+  & > * {
+    animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  & > *:nth-child(1) { animation-delay: 0.05s; }
+  & > *:nth-child(2) { animation-delay: 0.1s; }
+  & > *:nth-child(3) { animation-delay: 0.15s; }
+  & > *:nth-child(4) { animation-delay: 0.2s; }
+  & > *:nth-child(5) { animation-delay: 0.25s; }
+  & > *:nth-child(6) { animation-delay: 0.3s; }
+  & > *:nth-child(7) { animation-delay: 0.35s; }
+  & > *:nth-child(8) { animation-delay: 0.4s; }
 }
