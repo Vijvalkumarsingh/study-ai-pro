@@ -2,7 +2,7 @@ import { Bell, Search, Moon, Command } from "lucide-react";
 
 export function TopBar({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <header className="sticky top-0 z-30 border-b border-white/5 bg-background/70 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-white/5 bg-background/70 backdrop-blur-xl hidden lg:block">
       <div className="flex h-16 items-center gap-4 px-6">
         <div className="min-w-0">
           <h1 className="font-display text-lg font-semibold leading-tight truncate">{title}</h1>
