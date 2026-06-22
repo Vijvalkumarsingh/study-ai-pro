@@ -40,9 +40,9 @@ function AddSubject() {
                 </Field>
 
                 <Field label="Difficulty" icon={Sparkles}>
-                  <select className="w-full bg-transparent outline-none text-sm appearance-none cursor-pointer">
+                  <select defaultValue="Medium" className="w-full bg-transparent outline-none text-sm appearance-none cursor-pointer">
                     <option className="bg-card">Easy</option>
-                    <option className="bg-card" selected>Medium</option>
+                    <option className="bg-card">Medium</option>
                     <option className="bg-card">Hard</option>
                   </select>
                   <ChevronDown className="h-4 w-4 text-muted-foreground" />

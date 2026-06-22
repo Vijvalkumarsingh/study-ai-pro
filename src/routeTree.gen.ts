@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SubjectsAddRouteImport } from './routes/subjects.add'
 
@@ -22,6 +23,11 @@ const ScheduleRoute = ScheduleRouteImport.update({
 const ProgressRoute = ProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +43,14 @@ const SubjectsAddRoute = SubjectsAddRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/progress' | '/schedule' | '/subjects/add'
+  fullPaths: '/' | '/analytics' | '/progress' | '/schedule' | '/subjects/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/progress' | '/schedule' | '/subjects/add'
-  id: '__root__' | '/' | '/progress' | '/schedule' | '/subjects/add'
+  to: '/' | '/analytics' | '/progress' | '/schedule' | '/subjects/add'
+  id:
+    | '__root__'
+    | '/'
+    | '/analytics'
+    | '/progress'
+    | '/schedule'
+    | '/subjects/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   ProgressRoute: typeof ProgressRoute
   ScheduleRoute: typeof ScheduleRoute
   SubjectsAddRoute: typeof SubjectsAddRoute
@@ -85,6 +101,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
   ProgressRoute: ProgressRoute,
   ScheduleRoute: ScheduleRoute,
   SubjectsAddRoute: SubjectsAddRoute,
