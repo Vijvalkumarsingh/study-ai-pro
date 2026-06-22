@@ -1,22 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Flame,
-  Clock,
-  Sparkles,
-  Target,
-  AlertTriangle,
-  CheckCircle2,
-  ArrowRight,
-  Calendar,
-  Plus,
-  Play,
-  BookOpen,
-  Brain,
-  Trophy,
+  Flame, Calendar, Zap, ArrowRight, Plus, Play, Trophy,
+  BookOpen, Brain, Sparkles, BarChart3, Target, Clock, TrendingUp,
 } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
-import { subjects, todayPlan, aiRecommendations, user, weeklyHours } from "@/lib/mock-data";
+import { subjects, todayPlan, aiRecommendations, user, weeklyHours, achievements } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,215 +19,327 @@ export const Route = createFileRoute("/")({
 function Dashboard() {
   const totalHours = weeklyHours.reduce((s, d) => s + d.hours, 0);
   const nextExam = subjects.slice().sort((a, b) => a.daysLeft - b.daysLeft)[0];
-
-  const stats = [
-    { label: "Study Streak", value: `${user.streak} days`, icon: Flame, accent: "from-orange-500 to-rose-500", sub: "+2 vs last week" },
-    { label: "Hours This Week", value: `${totalHours.toFixed(1)}h`, icon: Clock, accent: "from-violet-500 to-fuchsia-500", sub: "Goal: 35h" },
-    { label: "Next Exam", value: `${nextExam.daysLeft} days`, icon: Calendar, accent: "from-blue-500 to-cyan-500", sub: nextExam.name },
-    { label: "Avg. Progress", value: `${Math.round(subjects.reduce((s, x) => s + x.progress, 0) / subjects.length)}%`, icon: Target, accent: "from-emerald-500 to-teal-500", sub: "Across 5 subjects" },
-  ];
+  const examProgress = Math.min(100, ((28 - nextExam.daysLeft) / 28) * 100);
+  const earnedBadges = achievements.filter((a) => a.earned);
+  const topReco = aiRecommendations[0];
 
   return (
     <>
-      <TopBar title={`Good evening, ${user.name} 👋`} subtitle="You're on a 14-day streak. Let's keep it going." />
+      <TopBar title={`Good evening, ${user.name}`} subtitle="You're on a 14-day streak. Let's keep it going." />
 
-      <div className="p-6 lg:p-8 space-y-6 animate-fade-in-up">
-        {/* Hero / Daily plan */}
-        <section className="relative overflow-hidden rounded-3xl glass-strong shadow-card p-8">
-          <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
-          <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-accent/20 blur-3xl" />
-          <div className="relative grid lg:grid-cols-[1.4fr_1fr] gap-8 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-xs text-muted-foreground mb-4">
-                <Sparkles className="h-3.5 w-3.5 text-primary" />
-                Today's AI-curated plan
-              </div>
-              <h2 className="font-display text-3xl lg:text-4xl font-semibold leading-tight">
-                <span className="gradient-text">5 focused sessions</span><br />
-                to keep you on track for finals.
-              </h2>
-              <p className="mt-3 text-muted-foreground max-w-lg">
-                Total: 6h 30m today. Priority subject: <span className="text-foreground font-medium">Database Management</span> (exam in 5 days).
+      <div className="p-4 sm:p-6 lg:p-8 space-y-4 max-w-[1400px] mx-auto w-full">
+        {/* Mobile header (above bento) */}
+        <header className="flex justify-between items-center px-1 lg:hidden animate-fade-in-up">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-400 mb-1">
+              Intelligence Active
+            </p>
+            <h1 className="font-display text-2xl font-bold tracking-tight text-white">
+              Morning, {user.name}
+            </h1>
+          </div>
+          <div className="h-10 w-10 rounded-full border border-indigo-500/30 bg-indigo-500/10 grid place-items-center">
+            <div className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse-dot" />
+          </div>
+        </header>
+
+        {/* Bento Grid */}
+        <div className="grid grid-cols-4 gap-3 sm:gap-4 stagger-children">
+
+          {/* 1. AI HERO — full width */}
+          <article className="col-span-4 relative overflow-hidden rounded-[2rem] p-6 sm:p-8 shadow-hero"
+            style={{ background: "var(--gradient-hero)" }}>
+            <div className="absolute -bottom-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute top-5 right-6 text-white/15">
+              <Zap className="w-12 h-12 sm:w-16 sm:h-16" strokeWidth={1.5} />
+            </div>
+            <div className="relative z-10 max-w-[420px]">
+              <span className="inline-block px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg text-[10px] font-bold uppercase tracking-wider text-indigo-100">
+                AI Recommendation
+              </span>
+              <h3 className="font-display text-3xl sm:text-4xl font-bold text-white mt-3 mb-2 leading-[1.05] tracking-tight">
+                {topReco.title}
+              </h3>
+              <p className="text-indigo-100/80 text-sm leading-relaxed">
+                {topReco.description}
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <button className="inline-flex items-center gap-2 rounded-xl gradient-primary px-5 py-2.5 text-sm font-medium text-white shadow-glow hover:opacity-90 transition">
-                  <Play className="h-4 w-4" /> Start next session
+              <div className="mt-6 flex gap-2.5">
+                <button className="px-5 py-2.5 bg-white text-indigo-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
+                  <Play className="h-4 w-4" /> Start Flow State
                 </button>
-                <Link to="/schedule" className="inline-flex items-center gap-2 rounded-xl glass px-5 py-2.5 text-sm font-medium hover:bg-white/10 transition">
-                  View full schedule <ArrowRight className="h-4 w-4" />
+                <Link to="/schedule" className="px-4 py-2.5 rounded-xl text-sm font-medium text-white/90 hover:bg-white/10 transition inline-flex items-center gap-1.5">
+                  Schedule <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             </div>
+          </article>
 
-            <div className="rounded-2xl glass p-4 space-y-2 max-h-[300px] overflow-auto">
-              {todayPlan.map((s, i) => (
-                <div key={i} className={`flex items-start gap-3 rounded-xl p-3 transition ${s.done ? "opacity-50" : "hover:bg-white/5"}`}>
-                  <div className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg ${
-                    s.priority === "high" ? "bg-rose-500/20 text-rose-300" :
-                    s.priority === "medium" ? "bg-amber-500/20 text-amber-300" :
-                    "bg-emerald-500/20 text-emerald-300"
+          {/* 2. Streak tile — col-span-1 */}
+          <article className="col-span-1 rounded-2xl p-3 sm:p-4 glass flex flex-col justify-between aspect-square sm:aspect-auto sm:min-h-[110px] hover-lift">
+            <div className="flex items-center gap-1.5">
+              <Flame className="h-3.5 w-3.5 text-orange-400" />
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-slate-500">Streak</span>
+            </div>
+            <div>
+              <div className="font-display text-2xl sm:text-3xl font-bold text-indigo-400 leading-none">{user.streak}</div>
+              <div className="text-[10px] text-slate-400 mt-0.5">Days</div>
+            </div>
+          </article>
+
+          {/* 3. Exam Countdown — col-span-3 */}
+          <article className="col-span-3 rounded-2xl p-4 sm:p-5 glass flex items-center justify-between hover-lift">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Calendar className="h-3.5 w-3.5 text-rose-400" />
+                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Next Exam</span>
+              </div>
+              <h4 className="text-sm sm:text-base font-bold text-white truncate font-display">{nextExam.name}</h4>
+              <div className="mt-2 w-full max-w-[160px] h-1 bg-[#1e1e5a] rounded-full overflow-hidden">
+                <div className="bg-gradient-to-r from-rose-500 to-rose-400 h-full rounded-full" style={{ width: `${examProgress}%` }} />
+              </div>
+            </div>
+            <div className="text-right shrink-0 ml-3">
+              <div className="flex items-baseline gap-1 justify-end">
+                <span className="font-display text-3xl sm:text-4xl font-bold text-rose-400 leading-none tabular-nums">
+                  {String(nextExam.daysLeft).padStart(2, "0")}
+                </span>
+                <span className="text-[10px] text-slate-400 uppercase font-bold">Days</span>
+              </div>
+              <div className="text-[10px] text-slate-500 mt-1">to {nextExam.code}</div>
+            </div>
+          </article>
+
+          {/* 4. Today's Plan — col-span-4 */}
+          <article className="col-span-4 rounded-[1.75rem] p-5 glass">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="font-display text-sm font-bold text-white">Today's Focus Sessions</h3>
+                <p className="text-[11px] text-slate-500 mt-0.5">5 sessions · 6h 30m total</p>
+              </div>
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-emerald-500/15 text-emerald-300 border border-emerald-500/20 rounded-full inline-flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse-dot" /> On track
+              </span>
+            </div>
+            <div className="space-y-2.5">
+              {todayPlan.slice(0, 4).map((s, i) => (
+                <div key={i} className={`flex items-center gap-3 p-2.5 rounded-xl transition ${
+                  s.done ? "opacity-50" : "hover:bg-white/[0.03]"
+                }`}>
+                  <div className={`h-9 w-9 shrink-0 rounded-xl grid place-items-center border ${
+                    s.priority === "high" ? "bg-rose-500/10 border-rose-500/20 text-rose-400" :
+                    s.priority === "medium" ? "bg-amber-500/10 border-amber-500/20 text-amber-400" :
+                    "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
                   }`}>
-                    {s.done ? <CheckCircle2 className="h-4 w-4" /> : <BookOpen className="h-4 w-4" />}
+                    <BookOpen className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-medium truncate">{s.topic}</span>
-                      <span className="text-[10px] text-muted-foreground shrink-0">{s.time}</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground truncate">{s.subject}</div>
+                    <div className="text-xs font-bold text-slate-200 truncate">{s.topic}</div>
+                    <div className="text-[10px] text-slate-500 truncate">{s.subject}</div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <div className="text-[10px] font-mono text-slate-400">{s.time}</div>
+                    <div className={`text-[9px] uppercase font-bold tracking-wider ${
+                      s.priority === "high" ? "text-rose-400" :
+                      s.priority === "medium" ? "text-amber-400" :
+                      "text-emerald-400"
+                    }`}>{s.priority}</div>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
+          </article>
 
-        {/* Stat row */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((s) => {
-            const Icon = s.icon;
-            return (
-              <div key={s.label} className="rounded-2xl glass shadow-card p-5 hover-lift">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">{s.label}</span>
-                  <div className={`grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br ${s.accent} text-white shadow-glow`}>
-                    <Icon className="h-4 w-4" />
+          {/* 5. Subject Proficiency — col-span-4 */}
+          <article className="col-span-4 rounded-[1.75rem] p-5 glass">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="font-display text-sm font-bold text-white">Subject Proficiency</h3>
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full">
+                Weekly Update
+              </span>
+            </div>
+            <div className="space-y-4">
+              {subjects.slice(0, 4).map((s, i) => {
+                const tones = [
+                  { bg: "bg-indigo-500/10", br: "border-indigo-500/20", tx: "text-indigo-400", bar: "bg-indigo-500", glow: "0 0 8px rgba(79, 70, 229, 0.6)" },
+                  { bg: "bg-emerald-500/10", br: "border-emerald-500/20", tx: "text-emerald-400", bar: "bg-emerald-500", glow: "0 0 8px rgba(16, 185, 129, 0.6)" },
+                  { bg: "bg-amber-500/10", br: "border-amber-500/20", tx: "text-amber-400", bar: "bg-amber-500", glow: "0 0 8px rgba(245, 158, 11, 0.6)" },
+                  { bg: "bg-rose-500/10", br: "border-rose-500/20", tx: "text-rose-400", bar: "bg-rose-500", glow: "0 0 8px rgba(244, 63, 94, 0.6)" },
+                ][i];
+                return (
+                  <div key={s.id} className="flex items-center gap-3 sm:gap-4">
+                    <div className={`h-10 w-10 shrink-0 rounded-xl ${tones.bg} border ${tones.br} grid place-items-center ${tones.tx}`}>
+                      <BookOpen className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-end mb-1.5 gap-2">
+                        <span className="text-xs font-bold text-slate-200 truncate">{s.name}</span>
+                        <span className={`text-[10px] font-mono shrink-0 ${tones.tx}`}>{s.progress}%</span>
+                      </div>
+                      <div className="w-full h-1.5 bg-[#1e1e5a] rounded-full overflow-hidden">
+                        <div className={`${tones.bar} h-full rounded-full transition-all duration-700`}
+                          style={{ width: `${s.progress}%`, boxShadow: tones.glow }} />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="mt-3 font-display text-2xl lg:text-3xl font-bold">{s.value}</div>
-                <div className="text-xs text-muted-foreground mt-1">{s.sub}</div>
-              </div>
-            );
-          })}
-        </section>
+                );
+              })}
+            </div>
+          </article>
 
-        {/* Subjects + AI panel */}
-        <section className="grid lg:grid-cols-[1.5fr_1fr] gap-6">
-          <div className="rounded-2xl glass shadow-card p-6">
-            <div className="flex items-center justify-between mb-5">
+          {/* 6. Study Hours bar chart — col-span-2 */}
+          <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift">
+            <div className="flex items-center gap-1.5 mb-3">
+              <BarChart3 className="h-3.5 w-3.5 text-indigo-400" />
+              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Study Hours</span>
+            </div>
+            <div className="flex items-end gap-1 h-14">
+              {weeklyHours.map((d, i) => {
+                const max = Math.max(...weeklyHours.map((h) => h.hours));
+                const h = (d.hours / max) * 100;
+                const isPeak = d.hours === max;
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <div
+                      className={`w-full rounded-t-sm animate-bar-grow ${
+                        isPeak ? "bg-indigo-500" : "bg-[#1e1e5a]"
+                      }`}
+                      style={{
+                        height: `${h}%`,
+                        boxShadow: isPeak ? "0 0 10px rgba(79, 70, 229, 0.5)" : undefined,
+                        animationDelay: `${i * 60}ms`,
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex items-end justify-between mt-3">
               <div>
-                <h3 className="font-display text-lg font-semibold">Subject Progress</h3>
-                <p className="text-xs text-muted-foreground">Live completion across all enrolled subjects</p>
-              </div>
-              <Link to="/subjects/add" className="inline-flex items-center gap-1.5 text-xs rounded-lg glass px-3 py-1.5 hover:bg-white/10">
-                <Plus className="h-3.5 w-3.5" /> Add subject
-              </Link>
-            </div>
-
-            <div className="space-y-3">
-              {subjects.map((s) => (
-                <div key={s.id} className="group rounded-xl border border-white/5 bg-white/[0.02] p-4 hover:border-white/10 transition">
-                  <div className="flex items-center gap-4">
-                    <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${s.color} text-white font-display font-semibold shadow-glow`}>
-                      {s.name.split(" ").map((w) => w[0]).slice(0, 2).join("")}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-sm font-medium truncate">{s.name}</span>
-                        <span className="text-xs text-muted-foreground shrink-0">{s.completedChapters}/{s.totalChapters} ch · {s.daysLeft}d left</span>
-                      </div>
-                      <div className="mt-2 flex items-center gap-3">
-                        <div className="h-1.5 flex-1 rounded-full bg-white/5 overflow-hidden">
-                          <div className={`h-full rounded-full bg-gradient-to-r ${s.color}`} style={{ width: `${s.progress}%` }} />
-                        </div>
-                        <span className="text-xs font-medium tabular-nums w-9 text-right">{s.progress}%</span>
-                      </div>
-                    </div>
-                  </div>
+                <div className="text-base font-bold text-white font-display leading-none tabular-nums">
+                  {totalHours.toFixed(1)}
                 </div>
+                <div className="text-[9px] text-slate-500 font-medium mt-0.5">hrs/wk</div>
+              </div>
+              <div className="text-[10px] text-emerald-400 font-mono inline-flex items-center gap-0.5">
+                <TrendingUp className="h-2.5 w-2.5" /> +12%
+              </div>
+            </div>
+          </article>
+
+          {/* 7. Achievement Badge — col-span-2 */}
+          <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift group">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-indigo-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                <Trophy className="w-5 h-5 text-indigo-400" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-indigo-400">Latest Badge</span>
+                <h4 className="text-xs font-bold text-white mt-0.5 truncate font-display">{earnedBadges[1]?.name}</h4>
+                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2 leading-snug">
+                  {earnedBadges.length} of {achievements.length} earned
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-1.5 mt-3">
+              {achievements.slice(0, 6).map((a, i) => (
+                <div key={i} className={`h-1.5 flex-1 rounded-full ${a.earned ? "bg-indigo-500" : "bg-[#1e1e5a]"}`} />
               ))}
             </div>
-          </div>
+          </article>
 
-          {/* AI Recommendations */}
-          <div className="space-y-6">
-            <div className="rounded-2xl glass shadow-card p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="grid h-8 w-8 place-items-center rounded-lg gradient-primary shadow-glow">
-                  <Brain className="h-4 w-4 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-display font-semibold">AI Recommendations</h3>
-                  <p className="text-[11px] text-muted-foreground">Updated 2 min ago</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                {aiRecommendations.map((r, i) => {
-                  const Icon = r.type === "urgent" ? AlertTriangle : r.type === "warning" ? AlertTriangle : Trophy;
-                  const tone =
-                    r.type === "urgent" ? "border-rose-400/30 bg-rose-500/10 text-rose-200" :
-                    r.type === "warning" ? "border-amber-400/30 bg-amber-500/10 text-amber-200" :
-                    "border-emerald-400/30 bg-emerald-500/10 text-emerald-200";
-                  return (
-                    <div key={i} className={`rounded-xl border p-4 ${tone}`}>
-                      <div className="flex items-start gap-3">
-                        <Icon className="h-4 w-4 mt-0.5 shrink-0" />
-                        <div>
-                          <div className="text-sm font-medium text-foreground">{r.title}</div>
-                          <div className="text-xs mt-1 text-muted-foreground leading-relaxed">{r.description}</div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="rounded-2xl glass-strong shadow-card p-6 relative overflow-hidden">
-              <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-primary/30 blur-2xl" />
-              <h3 className="font-display font-semibold mb-1">Exam Readiness</h3>
-              <p className="text-xs text-muted-foreground mb-4">Across all upcoming exams</p>
-              <div className="relative h-32 w-32 mx-auto">
-                <svg viewBox="0 0 120 120" className="-rotate-90 h-full w-full">
-                  <circle cx="60" cy="60" r="50" strokeWidth="10" className="stroke-white/5" fill="none" />
-                  <circle
-                    cx="60" cy="60" r="50" strokeWidth="10" fill="none"
-                    stroke="url(#g1)" strokeLinecap="round"
-                    strokeDasharray={`${(74 / 100) * 314} 314`}
-                  />
+          {/* 8. Exam Readiness — col-span-2 */}
+          <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift relative overflow-hidden">
+            <div className="absolute -top-8 -right-8 h-24 w-24 bg-indigo-500/20 blur-2xl rounded-full" />
+            <div className="relative flex items-center gap-3">
+              <div className="relative h-14 w-14 shrink-0">
+                <svg viewBox="0 0 60 60" className="-rotate-90 h-full w-full">
+                  <circle cx="30" cy="30" r="25" strokeWidth="5" stroke="#1e1e5a" fill="none" />
+                  <circle cx="30" cy="30" r="25" strokeWidth="5" stroke="url(#g)" strokeLinecap="round" fill="none"
+                    strokeDasharray={`${(74 / 100) * 157} 157`} />
                   <defs>
-                    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="oklch(0.66 0.22 295)" />
-                      <stop offset="100%" stopColor="oklch(0.62 0.21 255)" />
+                    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#a5b4fc" />
+                      <stop offset="100%" stopColor="#4f46e5" />
                     </linearGradient>
                   </defs>
                 </svg>
                 <div className="absolute inset-0 grid place-items-center">
-                  <div className="text-center">
-                    <div className="font-display text-3xl font-bold">74<span className="text-base text-muted-foreground">%</span></div>
-                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Ready</div>
-                  </div>
+                  <span className="text-xs font-bold font-display text-white">74%</span>
                 </div>
               </div>
+              <div className="min-w-0">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Exam Readiness</span>
+                <div className="font-display text-base font-bold text-white mt-0.5">Strong</div>
+                <div className="text-[10px] text-emerald-400 font-mono mt-0.5">+6% vs goal</div>
+              </div>
             </div>
-          </div>
-        </section>
+          </article>
 
-        {/* Quick actions */}
-        <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { label: "Add Subject", icon: Plus, to: "/subjects/add" },
-            { label: "View Schedule", icon: Calendar, to: "/schedule" },
-            { label: "Track Progress", icon: TrophyShim, to: "/progress" },
-            { label: "See Analytics", icon: SparklesShim, to: "/analytics" },
-          ].map((a) => (
-            <Link key={a.label} to={a.to} className="group rounded-2xl glass p-5 hover-lift flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-xl gradient-primary text-white">
-                <a.icon className="h-4 w-4" />
+          {/* 9. Total Hours small tile — col-span-2 */}
+          <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Clock className="h-3.5 w-3.5 text-indigo-400" />
+              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Today</span>
+            </div>
+            <div className="flex items-baseline gap-1">
+              <span className="font-display text-3xl font-bold text-white tabular-nums leading-none">4.2</span>
+              <span className="text-xs text-slate-500">/ 6h</span>
+            </div>
+            <div className="mt-3 h-1 bg-[#1e1e5a] rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-full" style={{ width: "70%" }} />
+            </div>
+            <div className="text-[10px] text-slate-500 mt-2">2 sessions remaining</div>
+          </article>
+        </div>
+
+        {/* Secondary section: AI insights + quick actions */}
+        <div className="grid grid-cols-4 gap-3 sm:gap-4 stagger-children mt-2">
+          {/* AI insights list — col-span-4 sm:col-span-2 */}
+          <article className="col-span-4 sm:col-span-2 rounded-[1.75rem] p-5 glass">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="grid h-8 w-8 place-items-center rounded-lg bg-indigo-500/20 border border-indigo-500/30">
+                <Brain className="h-4 w-4 text-indigo-400" />
               </div>
-              <div className="flex-1">
-                <div className="text-sm font-medium">{a.label}</div>
-                <div className="text-[11px] text-muted-foreground">Quick action</div>
+              <div>
+                <h3 className="font-display text-sm font-bold text-white">More AI Insights</h3>
+                <p className="text-[10px] text-slate-500">Updated 2 min ago</p>
               </div>
-              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition" />
-            </Link>
-          ))}
-        </section>
+            </div>
+            <div className="space-y-2.5">
+              {aiRecommendations.slice(1).map((r, i) => (
+                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 transition">
+                  <div className="text-xs font-bold text-slate-200">{r.title}</div>
+                  <div className="text-[10px] text-slate-500 mt-1 leading-relaxed">{r.description}</div>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          {/* Quick actions — col-span-4 sm:col-span-2 */}
+          <article className="col-span-4 sm:col-span-2 rounded-[1.75rem] p-5 glass">
+            <div className="flex items-center gap-1.5 mb-4">
+              <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Quick Actions</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: "Add Subject", icon: Plus, to: "/subjects/add" },
+                { label: "Schedule", icon: Calendar, to: "/schedule" },
+                { label: "Progress", icon: Target, to: "/progress" },
+                { label: "Analytics", icon: BarChart3, to: "/analytics" },
+              ].map((a) => (
+                <Link key={a.label} to={a.to}
+                  className="group flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 hover:bg-indigo-500/5 transition">
+                  <div className="h-8 w-8 shrink-0 rounded-lg bg-indigo-500/15 border border-indigo-500/20 grid place-items-center text-indigo-400 group-hover:scale-110 transition-transform">
+                    <a.icon className="h-3.5 w-3.5" />
+                  </div>
+                  <span className="text-xs font-bold text-slate-200">{a.label}</span>
+                </Link>
+              ))}
+            </div>
+          </article>
+        </div>
       </div>
     </>
   );
 }
-
-// Avoid unused import lint
-const TrophyShim = Trophy;
-const SparklesShim = Sparkles;
