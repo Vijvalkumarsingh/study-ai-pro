@@ -198,18 +198,16 @@ function Dashboard() {
                 const h = (d.hours / max) * 100;
                 const isPeak = d.hours === max;
                 return (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                    <div
-                      className={`w-full rounded-t-sm animate-bar-grow ${
-                        isPeak ? "bg-indigo-500" : "bg-[#1e1e5a]"
-                      }`}
-                      style={{
-                        height: `${h}%`,
-                        boxShadow: isPeak ? "0 0 10px rgba(79, 70, 229, 0.5)" : undefined,
-                        animationDelay: `${i * 60}ms`,
-                      }}
-                    />
-                  </div>
+                  <div
+                    key={i}
+                    className={`flex-1 rounded-t-sm transition-all duration-700 ${
+                      isPeak ? "bg-indigo-500" : "bg-[#1e1e5a]"
+                    }`}
+                    style={{
+                      height: `${h}%`,
+                      boxShadow: isPeak ? "0 0 10px rgba(79, 70, 229, 0.5)" : undefined,
+                    }}
+                  />
                 );
               })}
             </div>
