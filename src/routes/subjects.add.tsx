@@ -80,7 +80,7 @@ function AddSubject() {
                 <input
                   type="range" min={1} max={10} value={hours}
                   onChange={(e) => setHours(Number(e.target.value))}
-                  className="w-full accent-violet-500"
+                  className="w-full accent-white"
                 />
               </Field>
 

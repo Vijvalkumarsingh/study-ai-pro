@@ -31,15 +31,15 @@ function Dashboard() {
         {/* Mobile header (above bento) */}
         <header className="flex justify-between items-center px-1 lg:hidden animate-fade-in-up">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-400 mb-1">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">
               Intelligence Active
             </p>
             <h1 className="font-display text-2xl font-bold tracking-tight text-white">
               Morning, {user.name}
             </h1>
           </div>
-          <div className="h-10 w-10 rounded-full border border-indigo-500/30 bg-indigo-500/10 grid place-items-center">
-            <div className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse-dot" />
+          <div className="h-10 w-10 rounded-full border border-white/20 bg-white/10 grid place-items-center">
+            <div className="h-2 w-2 rounded-full bg-white animate-pulse-dot" />
           </div>
         </header>
 
@@ -54,17 +54,17 @@ function Dashboard() {
               <Zap className="w-12 h-12 sm:w-16 sm:h-16" strokeWidth={1.5} />
             </div>
             <div className="relative z-10 max-w-[420px]">
-              <span className="inline-block px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg text-[10px] font-bold uppercase tracking-wider text-indigo-100">
+              <span className="inline-block px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg text-[10px] font-bold uppercase tracking-wider text-zinc-100">
                 AI Recommendation
               </span>
               <h3 className="font-display text-3xl sm:text-4xl font-bold text-white mt-3 mb-2 leading-[1.05] tracking-tight">
                 {topReco.title}
               </h3>
-              <p className="text-indigo-100/80 text-sm leading-relaxed">
+              <p className="text-zinc-100/80 text-sm leading-relaxed">
                 {topReco.description}
               </p>
               <div className="mt-6 flex gap-2.5">
-                <button className="px-5 py-2.5 bg-white text-indigo-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
+                <button className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
                   <Play className="h-4 w-4" /> Start Flow State
                 </button>
                 <Link to="/schedule" className="px-4 py-2.5 rounded-xl text-sm font-medium text-white/90 hover:bg-white/10 transition inline-flex items-center gap-1.5">
@@ -81,7 +81,7 @@ function Dashboard() {
               <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-slate-500">Streak</span>
             </div>
             <div>
-              <div className="font-display text-2xl sm:text-3xl font-bold text-indigo-400 leading-none">{user.streak}</div>
+              <div className="font-display text-2xl sm:text-3xl font-bold text-white leading-none">{user.streak}</div>
               <div className="text-[10px] text-slate-400 mt-0.5">Days</div>
             </div>
           </article>
@@ -94,7 +94,7 @@ function Dashboard() {
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Next Exam</span>
               </div>
               <h4 className="text-sm sm:text-base font-bold text-white truncate font-display">{nextExam.name}</h4>
-              <div className="mt-2 w-full max-w-[160px] h-1 bg-[#1e1e5a] rounded-full overflow-hidden">
+              <div className="mt-2 w-full max-w-[160px] h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
                 <div className="bg-gradient-to-r from-rose-500 to-rose-400 h-full rounded-full" style={{ width: `${examProgress}%` }} />
               </div>
             </div>
@@ -153,14 +153,14 @@ function Dashboard() {
           <article className="col-span-4 rounded-[1.75rem] p-5 glass">
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-display text-sm font-bold text-white">Subject Proficiency</h3>
-              <span className="text-[10px] font-medium px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full">
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-white/10 text-zinc-300 rounded-full">
                 Weekly Update
               </span>
             </div>
             <div className="space-y-4">
               {subjects.slice(0, 4).map((s, i) => {
                 const tones = [
-                  { bg: "bg-indigo-500/10", br: "border-indigo-500/20", tx: "text-indigo-400", bar: "bg-indigo-500", glow: "0 0 8px rgba(79, 70, 229, 0.6)" },
+                  { bg: "bg-white/10", br: "border-white/20", tx: "text-zinc-300", bar: "bg-white", glow: "0 0 8px rgba(255, 255, 255, 0.4)" },
                   { bg: "bg-emerald-500/10", br: "border-emerald-500/20", tx: "text-emerald-400", bar: "bg-emerald-500", glow: "0 0 8px rgba(16, 185, 129, 0.6)" },
                   { bg: "bg-amber-500/10", br: "border-amber-500/20", tx: "text-amber-400", bar: "bg-amber-500", glow: "0 0 8px rgba(245, 158, 11, 0.6)" },
                   { bg: "bg-rose-500/10", br: "border-rose-500/20", tx: "text-rose-400", bar: "bg-rose-500", glow: "0 0 8px rgba(244, 63, 94, 0.6)" },
@@ -175,7 +175,7 @@ function Dashboard() {
                         <span className="text-xs font-bold text-slate-200 truncate">{s.name}</span>
                         <span className={`text-[10px] font-mono shrink-0 ${tones.tx}`}>{s.progress}%</span>
                       </div>
-                      <div className="w-full h-1.5 bg-[#1e1e5a] rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
                         <div className={`${tones.bar} h-full rounded-full transition-all duration-700`}
                           style={{ width: `${s.progress}%`, boxShadow: tones.glow }} />
                       </div>
@@ -189,7 +189,7 @@ function Dashboard() {
           {/* 6. Study Hours bar chart — col-span-2 */}
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift">
             <div className="flex items-center gap-1.5 mb-3">
-              <BarChart3 className="h-3.5 w-3.5 text-indigo-400" />
+              <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Study Hours</span>
             </div>
             <div className="flex items-end gap-1 h-14">
@@ -201,11 +201,11 @@ function Dashboard() {
                   <div
                     key={i}
                     className={`flex-1 rounded-t-sm transition-all duration-700 ${
-                      isPeak ? "bg-indigo-500" : "bg-[#1e1e5a]"
+                      isPeak ? "bg-white" : "bg-[#1a1a1a]"
                     }`}
                     style={{
                       height: `${h}%`,
-                      boxShadow: isPeak ? "0 0 10px rgba(79, 70, 229, 0.5)" : undefined,
+                      boxShadow: isPeak ? "0 0 10px rgba(255, 255, 255, 0.3)" : undefined,
                     }}
                   />
                 );
@@ -227,11 +227,11 @@ function Dashboard() {
           {/* 7. Achievement Badge — col-span-2 */}
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift group">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-indigo-500/20 rounded-xl group-hover:scale-110 transition-transform">
-                <Trophy className="w-5 h-5 text-indigo-400" />
+              <div className="p-2 bg-white/10 rounded-xl group-hover:scale-110 transition-transform">
+                <Trophy className="w-5 h-5 text-zinc-400" />
               </div>
               <div className="min-w-0 flex-1">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-indigo-400">Latest Badge</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">Latest Badge</span>
                 <h4 className="text-xs font-bold text-white mt-0.5 truncate font-display">{earnedBadges[1]?.name}</h4>
                 <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2 leading-snug">
                   {earnedBadges.length} of {achievements.length} earned
@@ -240,24 +240,24 @@ function Dashboard() {
             </div>
             <div className="flex gap-1.5 mt-3">
               {achievements.slice(0, 6).map((a, i) => (
-                <div key={i} className={`h-1.5 flex-1 rounded-full ${a.earned ? "bg-indigo-500" : "bg-[#1e1e5a]"}`} />
+                <div key={i} className={`h-1.5 flex-1 rounded-full ${a.earned ? "bg-white" : "bg-[#1a1a1a]"}`} />
               ))}
             </div>
           </article>
 
           {/* 8. Exam Readiness — col-span-2 */}
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift relative overflow-hidden">
-            <div className="absolute -top-8 -right-8 h-24 w-24 bg-indigo-500/20 blur-2xl rounded-full" />
+            <div className="absolute -top-8 -right-8 h-24 w-24 bg-white/10 blur-2xl rounded-full" />
             <div className="relative flex items-center gap-3">
               <div className="relative h-14 w-14 shrink-0">
                 <svg viewBox="0 0 60 60" className="-rotate-90 h-full w-full">
-                  <circle cx="30" cy="30" r="25" strokeWidth="5" stroke="#1e1e5a" fill="none" />
+                  <circle cx="30" cy="30" r="25" strokeWidth="5" stroke="#1a1a1a" fill="none" />
                   <circle cx="30" cy="30" r="25" strokeWidth="5" stroke="url(#g)" strokeLinecap="round" fill="none"
                     strokeDasharray={`${(74 / 100) * 157} 157`} />
                   <defs>
                     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#a5b4fc" />
-                      <stop offset="100%" stopColor="#4f46e5" />
+                      <stop offset="0%" stopColor="#e4e4e7" />
+                      <stop offset="100%" stopColor="#a1a1aa" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -276,15 +276,15 @@ function Dashboard() {
           {/* 9. Total Hours small tile — col-span-2 */}
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift">
             <div className="flex items-center gap-1.5 mb-2">
-              <Clock className="h-3.5 w-3.5 text-indigo-400" />
+              <Clock className="h-3.5 w-3.5 text-zinc-400" />
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Today</span>
             </div>
             <div className="flex items-baseline gap-1">
               <span className="font-display text-3xl font-bold text-white tabular-nums leading-none">4.2</span>
               <span className="text-xs text-slate-500">/ 6h</span>
             </div>
-            <div className="mt-3 h-1 bg-[#1e1e5a] rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-full" style={{ width: "70%" }} />
+            <div className="mt-3 h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-zinc-400 to-zinc-500 rounded-full" style={{ width: "70%" }} />
             </div>
             <div className="text-[10px] text-slate-500 mt-2">2 sessions remaining</div>
           </article>
@@ -295,8 +295,8 @@ function Dashboard() {
           {/* AI insights list — col-span-4 sm:col-span-2 */}
           <article className="col-span-4 sm:col-span-2 rounded-[1.75rem] p-5 glass">
             <div className="flex items-center gap-2 mb-4">
-              <div className="grid h-8 w-8 place-items-center rounded-lg bg-indigo-500/20 border border-indigo-500/30">
-                <Brain className="h-4 w-4 text-indigo-400" />
+              <div className="grid h-8 w-8 place-items-center rounded-lg bg-white/10 border border-white/20">
+                <Brain className="h-4 w-4 text-zinc-400" />
               </div>
               <div>
                 <h3 className="font-display text-sm font-bold text-white">More AI Insights</h3>
@@ -305,7 +305,7 @@ function Dashboard() {
             </div>
             <div className="space-y-2.5">
               {aiRecommendations.slice(1).map((r, i) => (
-                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 transition">
+                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/30 transition">
                   <div className="text-xs font-bold text-slate-200">{r.title}</div>
                   <div className="text-[10px] text-slate-500 mt-1 leading-relaxed">{r.description}</div>
                 </div>
@@ -316,7 +316,7 @@ function Dashboard() {
           {/* Quick actions — col-span-4 sm:col-span-2 */}
           <article className="col-span-4 sm:col-span-2 rounded-[1.75rem] p-5 glass">
             <div className="flex items-center gap-1.5 mb-4">
-              <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+              <Sparkles className="h-3.5 w-3.5 text-zinc-400" />
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Quick Actions</span>
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -327,8 +327,8 @@ function Dashboard() {
                 { label: "Analytics", icon: BarChart3, to: "/analytics" },
               ].map((a) => (
                 <Link key={a.label} to={a.to}
-                  className="group flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 hover:bg-indigo-500/5 transition">
-                  <div className="h-8 w-8 shrink-0 rounded-lg bg-indigo-500/15 border border-indigo-500/20 grid place-items-center text-indigo-400 group-hover:scale-110 transition-transform">
+                  className="group flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/30 hover:bg-white/5 transition">
+                  <div className="h-8 w-8 shrink-0 rounded-lg bg-white/10 border border-white/20 grid place-items-center text-zinc-400 group-hover:scale-110 transition-transform">
                     <a.icon className="h-3.5 w-3.5" />
                   </div>
                   <span className="text-xs font-bold text-slate-200">{a.label}</span>

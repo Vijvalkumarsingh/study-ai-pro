@@ -64,7 +64,7 @@ function AnalyticsPage() {
                 <p className="text-xs text-muted-foreground">This week vs target</p>
               </div>
               <div className="flex gap-2 text-xs">
-                <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-violet-400" /> Hours</span>
+                <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-white" /> Hours</span>
                 <span className="inline-flex items-center gap-1.5 text-muted-foreground"><span className="h-2 w-2 rounded-full bg-white/30" /> Target</span>
               </div>
             </div>
@@ -73,8 +73,8 @@ function AnalyticsPage() {
                 <AreaChart data={weeklyHours}>
                   <defs>
                     <linearGradient id="h" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="oklch(0.66 0.22 295)" stopOpacity={0.6} />
-                      <stop offset="100%" stopColor="oklch(0.66 0.22 295)" stopOpacity={0} />
+                      <stop offset="0%" stopColor="oklch(0.75 0 0)" stopOpacity={0.6} />
+                      <stop offset="100%" stopColor="oklch(0.75 0 0)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid stroke="oklch(1 0 0 / 6%)" vertical={false} />
@@ -82,7 +82,7 @@ function AnalyticsPage() {
                   <YAxis stroke="oklch(0.7 0.025 270)" fontSize={11} tickLine={false} axisLine={false} />
                   <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: "oklch(1 0 0 / 10%)" }} />
                   <Area type="monotone" dataKey="target" stroke="oklch(1 0 0 / 25%)" strokeDasharray="4 4" fill="none" />
-                  <Area type="monotone" dataKey="hours" stroke="oklch(0.66 0.22 295)" strokeWidth={2.5} fill="url(#h)" />
+                  <Area type="monotone" dataKey="hours" stroke="oklch(0.75 0 0)" strokeWidth={2.5} fill="url(#h)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -94,7 +94,7 @@ function AnalyticsPage() {
             <p className="text-xs text-muted-foreground mb-3">Weighted across all subjects</p>
             <div className="h-56">
               <ResponsiveContainer>
-                <RadialBarChart innerRadius="60%" outerRadius="100%" data={[{ name: "ready", value: 74, fill: "oklch(0.66 0.22 295)" }]} startAngle={90} endAngle={-270}>
+                <RadialBarChart innerRadius="60%" outerRadius="100%" data={[{ name: "ready", value: 74, fill: "oklch(0.75 0 0)" }]} startAngle={90} endAngle={-270}>
                   <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
                   <RadialBar background={{ fill: "oklch(1 0 0 / 6%)" }} dataKey="value" cornerRadius={20} />
                 </RadialBarChart>
@@ -120,8 +120,8 @@ function AnalyticsPage() {
                 <BarChart data={subjectPerformance}>
                   <defs>
                     <linearGradient id="b" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="oklch(0.66 0.22 295)" />
-                      <stop offset="100%" stopColor="oklch(0.62 0.21 255)" />
+                      <stop offset="0%" stopColor="oklch(0.75 0 0)" />
+                      <stop offset="100%" stopColor="oklch(0.65 0 0)" />
                     </linearGradient>
                   </defs>
                   <CartesianGrid stroke="oklch(1 0 0 / 6%)" vertical={false} />
@@ -142,15 +142,15 @@ function AnalyticsPage() {
                 <AreaChart data={completionTrend}>
                   <defs>
                     <linearGradient id="c" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="oklch(0.62 0.21 255)" stopOpacity={0.7} />
-                      <stop offset="100%" stopColor="oklch(0.62 0.21 255)" stopOpacity={0} />
+                      <stop offset="0%" stopColor="oklch(0.7 0 0)" stopOpacity={0.7} />
+                      <stop offset="100%" stopColor="oklch(0.7 0 0)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid stroke="oklch(1 0 0 / 6%)" vertical={false} />
                   <XAxis dataKey="week" stroke="oklch(0.7 0.025 270)" fontSize={11} tickLine={false} axisLine={false} />
                   <YAxis stroke="oklch(0.7 0.025 270)" fontSize={11} tickLine={false} axisLine={false} />
                   <Tooltip contentStyle={tooltipStyle} />
-                  <Area type="monotone" dataKey="completion" stroke="oklch(0.62 0.21 255)" strokeWidth={2.5} fill="url(#c)" />
+                  <Area type="monotone" dataKey="completion" stroke="oklch(0.7 0 0)" strokeWidth={2.5} fill="url(#c)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
