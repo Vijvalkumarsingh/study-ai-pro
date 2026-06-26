@@ -190,7 +190,7 @@ function Dashboard() {
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift">
             <div className="flex items-center gap-1.5 mb-3">
               <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
-              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Study Hours</span>
+              <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">Study Hours</span>
             </div>
             <div className="flex items-end gap-1 h-14">
               {weeklyHours.map((d, i) => {
@@ -216,9 +216,9 @@ function Dashboard() {
                 <div className="text-base font-bold text-white font-display leading-none tabular-nums">
                   {totalHours.toFixed(1)}
                 </div>
-                <div className="text-[9px] text-slate-500 font-medium mt-0.5">hrs/wk</div>
+                <div className="text-[9px] text-zinc-500 font-medium mt-0.5">hrs/wk</div>
               </div>
-              <div className="text-[10px] text-emerald-400 font-mono inline-flex items-center gap-0.5">
+              <div className="text-[10px] text-zinc-300 font-mono inline-flex items-center gap-0.5">
                 <TrendingUp className="h-2.5 w-2.5" /> +12%
               </div>
             </div>
