@@ -114,10 +114,10 @@ function Dashboard() {
             <div className="flex justify-between items-center mb-4">
               <div>
                 <h3 className="font-display text-sm font-bold text-white">Today's Focus Sessions</h3>
-                <p className="text-[11px] text-slate-500 mt-0.5">5 sessions · 6h 30m total</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5">5 sessions · 6h 30m total</p>
               </div>
-              <span className="text-[10px] font-medium px-2 py-0.5 bg-emerald-500/15 text-emerald-300 border border-emerald-500/20 rounded-full inline-flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse-dot" /> On track
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-white/10 text-zinc-300 border border-white/20 rounded-full inline-flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-zinc-300 animate-pulse-dot" /> On track
               </span>
             </div>
             <div className="space-y-2.5">
@@ -126,22 +126,22 @@ function Dashboard() {
                   s.done ? "opacity-50" : "hover:bg-white/[0.03]"
                 }`}>
                   <div className={`h-9 w-9 shrink-0 rounded-xl grid place-items-center border ${
-                    s.priority === "high" ? "bg-rose-500/10 border-rose-500/20 text-rose-400" :
-                    s.priority === "medium" ? "bg-amber-500/10 border-amber-500/20 text-amber-400" :
-                    "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                    s.priority === "high" ? "bg-white/10 border-white/20 text-zinc-300" :
+                    s.priority === "medium" ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-400" :
+                    "bg-zinc-700/10 border-zinc-700/20 text-zinc-500"
                   }`}>
                     <BookOpen className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs font-bold text-slate-200 truncate">{s.topic}</div>
-                    <div className="text-[10px] text-slate-500 truncate">{s.subject}</div>
+                    <div className="text-xs font-bold text-zinc-200 truncate">{s.topic}</div>
+                    <div className="text-[10px] text-zinc-500 truncate">{s.subject}</div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-[10px] font-mono text-slate-400">{s.time}</div>
+                    <div className="text-[10px] font-mono text-zinc-400">{s.time}</div>
                     <div className={`text-[9px] uppercase font-bold tracking-wider ${
-                      s.priority === "high" ? "text-rose-400" :
-                      s.priority === "medium" ? "text-amber-400" :
-                      "text-emerald-400"
+                      s.priority === "high" ? "text-zinc-300" :
+                      s.priority === "medium" ? "text-zinc-400" :
+                      "text-zinc-500"
                     }`}>{s.priority}</div>
                   </div>
                 </div>
