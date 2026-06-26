@@ -27,15 +27,15 @@ function SchedulePage() {
                 <h3 className="font-display text-lg font-semibold">Today · Monday, June 22</h3>
                 <p className="text-xs text-muted-foreground">5 sessions · 6h 30m total</p>
               </div>
-              <span className="inline-flex items-center gap-1.5 text-xs rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/20 px-3 py-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" /> On track
+              <span className="inline-flex items-center gap-1.5 text-xs rounded-full bg-white/10 text-zinc-300 border border-white/20 px-3 py-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-zinc-300 animate-pulse" /> On track
               </span>
             </div>
             <ol className="relative border-l border-white/10 pl-6 space-y-4">
               {todayPlan.map((s, i) => (
                 <li key={i} className="relative">
                   <span className={`absolute -left-[31px] top-1.5 grid h-5 w-5 place-items-center rounded-full border-2 border-background ${
-                    s.priority === "high" ? "bg-rose-500" : s.priority === "medium" ? "bg-amber-500" : "bg-emerald-500"
+                    s.priority === "high" ? "bg-zinc-300" : s.priority === "medium" ? "bg-zinc-500" : "bg-zinc-700"
                   }`}>
                     <span className="h-1.5 w-1.5 rounded-full bg-background" />
                   </span>
@@ -49,9 +49,9 @@ function SchedulePage() {
                     <div className="mt-1 flex items-center justify-between text-xs">
                       <span className="text-muted-foreground">{s.subject}</span>
                       <span className={`px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider ${
-                        s.priority === "high" ? "bg-rose-500/15 text-rose-300" :
-                        s.priority === "medium" ? "bg-amber-500/15 text-amber-300" :
-                        "bg-emerald-500/15 text-emerald-300"
+                        s.priority === "high" ? "bg-white/10 text-zinc-300" :
+                        s.priority === "medium" ? "bg-zinc-500/10 text-zinc-400" :
+                        "bg-zinc-700/10 text-zinc-500"
                       }`}>
                         {s.priority}
                       </span>
@@ -98,11 +98,11 @@ function SchedulePage() {
             </div>
             <div className="flex items-center gap-2 text-xs">
               {[
-                ["DBMS", "bg-violet-500"],
-                ["OS", "bg-blue-500"],
-                ["Algo", "bg-pink-500"],
-                ["Net", "bg-emerald-500"],
-                ["Math", "bg-amber-500"],
+                ["DBMS", "bg-zinc-300"],
+                ["OS", "bg-zinc-400"],
+                ["Algo", "bg-zinc-500"],
+                ["Net", "bg-zinc-600"],
+                ["Math", "bg-zinc-700"],
               ].map(([n, c]) => (
                 <span key={n} className="inline-flex items-center gap-1.5 text-muted-foreground">
                   <span className={`h-2 w-2 rounded-full ${c}`} /> {n}

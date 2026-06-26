@@ -115,7 +115,7 @@ function ProgressPage() {
                 <div className="font-display font-semibold text-sm">{a.name}</div>
                 <div className="text-[11px] text-muted-foreground mt-1 leading-snug">{a.desc}</div>
                 {a.earned ? (
-                  <CheckCircle2 className="absolute top-2 right-2 h-4 w-4 text-emerald-400" />
+                  <CheckCircle2 className="absolute top-2 right-2 h-4 w-4 text-zinc-300" />
                 ) : (
                   <Lock className="absolute top-2 right-2 h-3.5 w-3.5 text-muted-foreground" />
                 )}

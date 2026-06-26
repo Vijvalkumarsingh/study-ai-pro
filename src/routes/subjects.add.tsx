@@ -115,7 +115,7 @@ function AddSubject() {
               <div className="rounded-2xl glass p-5 space-y-3">
                 <div className="text-xs text-muted-foreground uppercase tracking-wider">AI Insight</div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  With <span className="text-foreground font-medium">{hours}h/day</span> and <span className="text-foreground font-medium">{chapters.length} chapters</span>, you'll comfortably cover content with <span className="text-emerald-300 font-medium">22% buffer for revision</span>.
+                  With <span className="text-foreground font-medium">{hours}h/day</span> and <span className="text-foreground font-medium">{chapters.length} chapters</span>, you'll comfortably cover content with <span className="text-zinc-300 font-medium">22% buffer for revision</span>.
                 </p>
                 <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
                   <div className="h-full gradient-primary rounded-full" style={{ width: "78%" }} />

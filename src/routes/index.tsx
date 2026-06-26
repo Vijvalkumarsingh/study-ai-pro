@@ -77,12 +77,12 @@ function Dashboard() {
           {/* 2. Streak tile — col-span-1 */}
           <article className="col-span-1 rounded-2xl p-3 sm:p-4 glass flex flex-col justify-between aspect-square sm:aspect-auto sm:min-h-[110px] hover-lift">
             <div className="flex items-center gap-1.5">
-              <Flame className="h-3.5 w-3.5 text-orange-400" />
-              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-slate-500">Streak</span>
+              <Flame className="h-3.5 w-3.5 text-zinc-400" />
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-zinc-500">Streak</span>
             </div>
             <div>
               <div className="font-display text-2xl sm:text-3xl font-bold text-white leading-none">{user.streak}</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Days</div>
+              <div className="text-[10px] text-zinc-400 mt-0.5">Days</div>
             </div>
           </article>
 
@@ -90,22 +90,22 @@ function Dashboard() {
           <article className="col-span-3 rounded-2xl p-4 sm:p-5 glass flex items-center justify-between hover-lift">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 mb-1">
-                <Calendar className="h-3.5 w-3.5 text-rose-400" />
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Next Exam</span>
+                <Calendar className="h-3.5 w-3.5 text-zinc-300" />
+                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">Next Exam</span>
               </div>
               <h4 className="text-sm sm:text-base font-bold text-white truncate font-display">{nextExam.name}</h4>
               <div className="mt-2 w-full max-w-[160px] h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
-                <div className="bg-gradient-to-r from-rose-500 to-rose-400 h-full rounded-full" style={{ width: `${examProgress}%` }} />
+                <div className="bg-gradient-to-r from-zinc-300 to-zinc-400 h-full rounded-full" style={{ width: `${examProgress}%` }} />
               </div>
             </div>
             <div className="text-right shrink-0 ml-3">
               <div className="flex items-baseline gap-1 justify-end">
-                <span className="font-display text-3xl sm:text-4xl font-bold text-rose-400 leading-none tabular-nums">
+                <span className="font-display text-3xl sm:text-4xl font-bold text-zinc-300 leading-none tabular-nums">
                   {String(nextExam.daysLeft).padStart(2, "0")}
                 </span>
-                <span className="text-[10px] text-slate-400 uppercase font-bold">Days</span>
+                <span className="text-[10px] text-zinc-400 uppercase font-bold">Days</span>
               </div>
-              <div className="text-[10px] text-slate-500 mt-1">to {nextExam.code}</div>
+              <div className="text-[10px] text-zinc-500 mt-1">to {nextExam.code}</div>
             </div>
           </article>
 
@@ -114,10 +114,10 @@ function Dashboard() {
             <div className="flex justify-between items-center mb-4">
               <div>
                 <h3 className="font-display text-sm font-bold text-white">Today's Focus Sessions</h3>
-                <p className="text-[11px] text-slate-500 mt-0.5">5 sessions · 6h 30m total</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5">5 sessions · 6h 30m total</p>
               </div>
-              <span className="text-[10px] font-medium px-2 py-0.5 bg-emerald-500/15 text-emerald-300 border border-emerald-500/20 rounded-full inline-flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse-dot" /> On track
+              <span className="text-[10px] font-medium px-2 py-0.5 bg-white/10 text-zinc-300 border border-white/20 rounded-full inline-flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-zinc-300 animate-pulse-dot" /> On track
               </span>
             </div>
             <div className="space-y-2.5">
@@ -126,22 +126,22 @@ function Dashboard() {
                   s.done ? "opacity-50" : "hover:bg-white/[0.03]"
                 }`}>
                   <div className={`h-9 w-9 shrink-0 rounded-xl grid place-items-center border ${
-                    s.priority === "high" ? "bg-rose-500/10 border-rose-500/20 text-rose-400" :
-                    s.priority === "medium" ? "bg-amber-500/10 border-amber-500/20 text-amber-400" :
-                    "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                    s.priority === "high" ? "bg-white/10 border-white/20 text-zinc-300" :
+                    s.priority === "medium" ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-400" :
+                    "bg-zinc-700/10 border-zinc-700/20 text-zinc-500"
                   }`}>
                     <BookOpen className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs font-bold text-slate-200 truncate">{s.topic}</div>
-                    <div className="text-[10px] text-slate-500 truncate">{s.subject}</div>
+                    <div className="text-xs font-bold text-zinc-200 truncate">{s.topic}</div>
+                    <div className="text-[10px] text-zinc-500 truncate">{s.subject}</div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-[10px] font-mono text-slate-400">{s.time}</div>
+                    <div className="text-[10px] font-mono text-zinc-400">{s.time}</div>
                     <div className={`text-[9px] uppercase font-bold tracking-wider ${
-                      s.priority === "high" ? "text-rose-400" :
-                      s.priority === "medium" ? "text-amber-400" :
-                      "text-emerald-400"
+                      s.priority === "high" ? "text-zinc-300" :
+                      s.priority === "medium" ? "text-zinc-400" :
+                      "text-zinc-500"
                     }`}>{s.priority}</div>
                   </div>
                 </div>
@@ -161,9 +161,9 @@ function Dashboard() {
               {subjects.slice(0, 4).map((s, i) => {
                 const tones = [
                   { bg: "bg-white/10", br: "border-white/20", tx: "text-zinc-300", bar: "bg-white", glow: "0 0 8px rgba(255, 255, 255, 0.4)" },
-                  { bg: "bg-emerald-500/10", br: "border-emerald-500/20", tx: "text-emerald-400", bar: "bg-emerald-500", glow: "0 0 8px rgba(16, 185, 129, 0.6)" },
-                  { bg: "bg-amber-500/10", br: "border-amber-500/20", tx: "text-amber-400", bar: "bg-amber-500", glow: "0 0 8px rgba(245, 158, 11, 0.6)" },
-                  { bg: "bg-rose-500/10", br: "border-rose-500/20", tx: "text-rose-400", bar: "bg-rose-500", glow: "0 0 8px rgba(244, 63, 94, 0.6)" },
+                  { bg: "bg-zinc-500/10", br: "border-zinc-500/20", tx: "text-zinc-400", bar: "bg-zinc-400", glow: "0 0 8px rgba(161, 161, 170, 0.5)" },
+                  { bg: "bg-zinc-600/10", br: "border-zinc-600/20", tx: "text-zinc-500", bar: "bg-zinc-500", glow: "0 0 8px rgba(113, 113, 122, 0.5)" },
+                  { bg: "bg-zinc-700/10", br: "border-zinc-700/20", tx: "text-zinc-600", bar: "bg-zinc-600", glow: "0 0 8px rgba(82, 82, 91, 0.5)" },
                 ][i];
                 return (
                   <div key={s.id} className="flex items-center gap-3 sm:gap-4">
@@ -172,7 +172,7 @@ function Dashboard() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-end mb-1.5 gap-2">
-                        <span className="text-xs font-bold text-slate-200 truncate">{s.name}</span>
+                        <span className="text-xs font-bold text-zinc-200 truncate">{s.name}</span>
                         <span className={`text-[10px] font-mono shrink-0 ${tones.tx}`}>{s.progress}%</span>
                       </div>
                       <div className="w-full h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
@@ -190,7 +190,7 @@ function Dashboard() {
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift">
             <div className="flex items-center gap-1.5 mb-3">
               <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
-              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Study Hours</span>
+              <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">Study Hours</span>
             </div>
             <div className="flex items-end gap-1 h-14">
               {weeklyHours.map((d, i) => {
@@ -216,9 +216,9 @@ function Dashboard() {
                 <div className="text-base font-bold text-white font-display leading-none tabular-nums">
                   {totalHours.toFixed(1)}
                 </div>
-                <div className="text-[9px] text-slate-500 font-medium mt-0.5">hrs/wk</div>
+                <div className="text-[9px] text-zinc-500 font-medium mt-0.5">hrs/wk</div>
               </div>
-              <div className="text-[10px] text-emerald-400 font-mono inline-flex items-center gap-0.5">
+              <div className="text-[10px] text-zinc-300 font-mono inline-flex items-center gap-0.5">
                 <TrendingUp className="h-2.5 w-2.5" /> +12%
               </div>
             </div>
@@ -266,9 +266,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className="min-w-0">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Exam Readiness</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">Exam Readiness</span>
                 <div className="font-display text-base font-bold text-white mt-0.5">Strong</div>
-                <div className="text-[10px] text-emerald-400 font-mono mt-0.5">+6% vs goal</div>
+                <div className="text-[10px] text-zinc-300 font-mono mt-0.5">+6% vs goal</div>
               </div>
             </div>
           </article>
