@@ -160,11 +160,11 @@ export const achievements = [
 ];
 
 export const weekSchedule = [
-  { day: "Mon", slots: [{ time: "9–11", subject: "DBMS", color: "bg-violet-500/30 border-violet-400/50" }, { time: "14–16", subject: "Algorithms", color: "bg-pink-500/30 border-pink-400/50" }] },
-  { day: "Tue", slots: [{ time: "8–10", subject: "OS", color: "bg-blue-500/30 border-blue-400/50" }, { time: "15–17", subject: "DBMS", color: "bg-violet-500/30 border-violet-400/50" }, { time: "19–20", subject: "Math", color: "bg-amber-500/30 border-amber-400/50" }] },
-  { day: "Wed", slots: [{ time: "10–12", subject: "Networks", color: "bg-emerald-500/30 border-emerald-400/50" }, { time: "14–16", subject: "Algorithms", color: "bg-pink-500/30 border-pink-400/50" }] },
-  { day: "Thu", slots: [{ time: "9–11", subject: "DBMS", color: "bg-violet-500/30 border-violet-400/50" }, { time: "13–15", subject: "OS", color: "bg-blue-500/30 border-blue-400/50" }, { time: "18–19", subject: "Math", color: "bg-amber-500/30 border-amber-400/50" }] },
-  { day: "Fri", slots: [{ time: "8–10", subject: "Algorithms", color: "bg-pink-500/30 border-pink-400/50" }, { time: "11–13", subject: "Networks", color: "bg-emerald-500/30 border-emerald-400/50" }, { time: "16–18", subject: "DBMS", color: "bg-violet-500/30 border-violet-400/50" }] },
-  { day: "Sat", slots: [{ time: "10–13", subject: "Revision", color: "bg-fuchsia-500/30 border-fuchsia-400/50" }] },
-  { day: "Sun", slots: [{ time: "11–12", subject: "Light Review", color: "bg-cyan-500/30 border-cyan-400/50" }] },
+  { day: "Mon", slots: [{ time: "9–11", subject: "DBMS", color: "bg-zinc-300/30 border-zinc-300/50" }, { time: "14–16", subject: "Algorithms", color: "bg-zinc-500/30 border-zinc-500/50" }] },
+  { day: "Tue", slots: [{ time: "8–10", subject: "OS", color: "bg-zinc-400/30 border-zinc-400/50" }, { time: "15–17", subject: "DBMS", color: "bg-zinc-300/30 border-zinc-300/50" }, { time: "19–20", subject: "Math", color: "bg-zinc-700/30 border-zinc-700/50" }] },
+  { day: "Wed", slots: [{ time: "10–12", subject: "Networks", color: "bg-zinc-600/30 border-zinc-600/50" }, { time: "14–16", subject: "Algorithms", color: "bg-zinc-500/30 border-zinc-500/50" }] },
+  { day: "Thu", slots: [{ time: "9–11", subject: "DBMS", color: "bg-zinc-300/30 border-zinc-300/50" }, { time: "13–15", subject: "OS", color: "bg-zinc-400/30 border-zinc-400/50" }, { time: "18–19", subject: "Math", color: "bg-zinc-700/30 border-zinc-700/50" }] },
+  { day: "Fri", slots: [{ time: "8–10", subject: "Algorithms", color: "bg-zinc-500/30 border-zinc-500/50" }, { time: "11–13", subject: "Networks", color: "bg-zinc-600/30 border-zinc-600/50" }, { time: "16–18", subject: "DBMS", color: "bg-zinc-300/30 border-zinc-300/50" }] },
+  { day: "Sat", slots: [{ time: "10–13", subject: "Revision", color: "bg-zinc-500/30 border-zinc-500/50" }] },
+  { day: "Sun", slots: [{ time: "11–12", subject: "Light Review", color: "bg-zinc-400/30 border-zinc-400/50" }] },
 ];
