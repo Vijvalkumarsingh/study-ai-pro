@@ -161,9 +161,9 @@ function Dashboard() {
               {subjects.slice(0, 4).map((s, i) => {
                 const tones = [
                   { bg: "bg-white/10", br: "border-white/20", tx: "text-zinc-300", bar: "bg-white", glow: "0 0 8px rgba(255, 255, 255, 0.4)" },
-                  { bg: "bg-emerald-500/10", br: "border-emerald-500/20", tx: "text-emerald-400", bar: "bg-emerald-500", glow: "0 0 8px rgba(16, 185, 129, 0.6)" },
-                  { bg: "bg-amber-500/10", br: "border-amber-500/20", tx: "text-amber-400", bar: "bg-amber-500", glow: "0 0 8px rgba(245, 158, 11, 0.6)" },
-                  { bg: "bg-rose-500/10", br: "border-rose-500/20", tx: "text-rose-400", bar: "bg-rose-500", glow: "0 0 8px rgba(244, 63, 94, 0.6)" },
+                  { bg: "bg-zinc-500/10", br: "border-zinc-500/20", tx: "text-zinc-400", bar: "bg-zinc-400", glow: "0 0 8px rgba(161, 161, 170, 0.5)" },
+                  { bg: "bg-zinc-600/10", br: "border-zinc-600/20", tx: "text-zinc-500", bar: "bg-zinc-500", glow: "0 0 8px rgba(113, 113, 122, 0.5)" },
+                  { bg: "bg-zinc-700/10", br: "border-zinc-700/20", tx: "text-zinc-600", bar: "bg-zinc-600", glow: "0 0 8px rgba(82, 82, 91, 0.5)" },
                 ][i];
                 return (
                   <div key={s.id} className="flex items-center gap-3 sm:gap-4">
@@ -172,7 +172,7 @@ function Dashboard() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-end mb-1.5 gap-2">
-                        <span className="text-xs font-bold text-slate-200 truncate">{s.name}</span>
+                        <span className="text-xs font-bold text-zinc-200 truncate">{s.name}</span>
                         <span className={`text-[10px] font-mono shrink-0 ${tones.tx}`}>{s.progress}%</span>
                       </div>
                       <div className="w-full h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
