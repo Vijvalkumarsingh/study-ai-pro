@@ -266,9 +266,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className="min-w-0">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Exam Readiness</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">Exam Readiness</span>
                 <div className="font-display text-base font-bold text-white mt-0.5">Strong</div>
-                <div className="text-[10px] text-emerald-400 font-mono mt-0.5">+6% vs goal</div>
+                <div className="text-[10px] text-zinc-300 font-mono mt-0.5">+6% vs goal</div>
               </div>
             </div>
           </article>
