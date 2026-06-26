@@ -105,7 +105,7 @@ function AnalyticsPage() {
               </div>
             </div>
             <div className="mt-12 text-xs text-muted-foreground text-center">
-              You're <span className="text-emerald-300 font-medium">+6%</span> above weekly target.
+              You're <span className="text-zinc-300 font-medium">+6%</span> above weekly target.
             </div>
           </div>
         </div>
