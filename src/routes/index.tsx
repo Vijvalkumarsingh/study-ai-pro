@@ -77,12 +77,12 @@ function Dashboard() {
           {/* 2. Streak tile — col-span-1 */}
           <article className="col-span-1 rounded-2xl p-3 sm:p-4 glass flex flex-col justify-between aspect-square sm:aspect-auto sm:min-h-[110px] hover-lift">
             <div className="flex items-center gap-1.5">
-              <Flame className="h-3.5 w-3.5 text-orange-400" />
-              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-slate-500">Streak</span>
+              <Flame className="h-3.5 w-3.5 text-zinc-400" />
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-zinc-500">Streak</span>
             </div>
             <div>
               <div className="font-display text-2xl sm:text-3xl font-bold text-white leading-none">{user.streak}</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Days</div>
+              <div className="text-[10px] text-zinc-400 mt-0.5">Days</div>
             </div>
           </article>
 
@@ -90,22 +90,22 @@ function Dashboard() {
           <article className="col-span-3 rounded-2xl p-4 sm:p-5 glass flex items-center justify-between hover-lift">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 mb-1">
-                <Calendar className="h-3.5 w-3.5 text-rose-400" />
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Next Exam</span>
+                <Calendar className="h-3.5 w-3.5 text-zinc-300" />
+                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">Next Exam</span>
               </div>
               <h4 className="text-sm sm:text-base font-bold text-white truncate font-display">{nextExam.name}</h4>
               <div className="mt-2 w-full max-w-[160px] h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
-                <div className="bg-gradient-to-r from-rose-500 to-rose-400 h-full rounded-full" style={{ width: `${examProgress}%` }} />
+                <div className="bg-gradient-to-r from-zinc-300 to-zinc-400 h-full rounded-full" style={{ width: `${examProgress}%` }} />
               </div>
             </div>
             <div className="text-right shrink-0 ml-3">
               <div className="flex items-baseline gap-1 justify-end">
-                <span className="font-display text-3xl sm:text-4xl font-bold text-rose-400 leading-none tabular-nums">
+                <span className="font-display text-3xl sm:text-4xl font-bold text-zinc-300 leading-none tabular-nums">
                   {String(nextExam.daysLeft).padStart(2, "0")}
                 </span>
-                <span className="text-[10px] text-slate-400 uppercase font-bold">Days</span>
+                <span className="text-[10px] text-zinc-400 uppercase font-bold">Days</span>
               </div>
-              <div className="text-[10px] text-slate-500 mt-1">to {nextExam.code}</div>
+              <div className="text-[10px] text-zinc-500 mt-1">to {nextExam.code}</div>
             </div>
           </article>
 
