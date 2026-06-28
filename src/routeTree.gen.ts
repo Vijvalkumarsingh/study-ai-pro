@@ -13,7 +13,9 @@ import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SubjectsIndexRouteImport } from './routes/subjects.index'
 import { Route as SubjectsAddRouteImport } from './routes/subjects.add'
+import { Route as SubjectsIdEditRouteImport } from './routes/subjects.$id.edit'
 
 const ScheduleRoute = ScheduleRouteImport.update({
   id: '/schedule',
@@ -35,9 +37,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SubjectsIndexRoute = SubjectsIndexRouteImport.update({
+  id: '/subjects/',
+  path: '/subjects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SubjectsAddRoute = SubjectsAddRouteImport.update({
   id: '/subjects/add',
   path: '/subjects/add',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubjectsIdEditRoute = SubjectsIdEditRouteImport.update({
+  id: '/subjects/$id/edit',
+  path: '/subjects/$id/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -47,6 +59,8 @@ export interface FileRoutesByFullPath {
   '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
+  '/subjects/': typeof SubjectsIndexRoute
+  '/subjects/$id/edit': typeof SubjectsIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +68,8 @@ export interface FileRoutesByTo {
   '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
+  '/subjects': typeof SubjectsIndexRoute
+  '/subjects/$id/edit': typeof SubjectsIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +78,28 @@ export interface FileRoutesById {
   '/progress': typeof ProgressRoute
   '/schedule': typeof ScheduleRoute
   '/subjects/add': typeof SubjectsAddRoute
+  '/subjects/': typeof SubjectsIndexRoute
+  '/subjects/$id/edit': typeof SubjectsIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analytics' | '/progress' | '/schedule' | '/subjects/add'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/progress'
+    | '/schedule'
+    | '/subjects/add'
+    | '/subjects/'
+    | '/subjects/$id/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analytics' | '/progress' | '/schedule' | '/subjects/add'
+  to:
+    | '/'
+    | '/analytics'
+    | '/progress'
+    | '/schedule'
+    | '/subjects/add'
+    | '/subjects'
+    | '/subjects/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -75,6 +107,8 @@ export interface FileRouteTypes {
     | '/progress'
     | '/schedule'
     | '/subjects/add'
+    | '/subjects/'
+    | '/subjects/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +117,8 @@ export interface RootRouteChildren {
   ProgressRoute: typeof ProgressRoute
   ScheduleRoute: typeof ScheduleRoute
   SubjectsAddRoute: typeof SubjectsAddRoute
+  SubjectsIndexRoute: typeof SubjectsIndexRoute
+  SubjectsIdEditRoute: typeof SubjectsIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -115,11 +151,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/subjects/': {
+      id: '/subjects/'
+      path: '/subjects'
+      fullPath: '/subjects/'
+      preLoaderRoute: typeof SubjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/subjects/add': {
       id: '/subjects/add'
       path: '/subjects/add'
       fullPath: '/subjects/add'
       preLoaderRoute: typeof SubjectsAddRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subjects/$id/edit': {
+      id: '/subjects/$id/edit'
+      path: '/subjects/$id/edit'
+      fullPath: '/subjects/$id/edit'
+      preLoaderRoute: typeof SubjectsIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -131,7 +181,19 @@ const rootRouteChildren: RootRouteChildren = {
   ProgressRoute: ProgressRoute,
   ScheduleRoute: ScheduleRoute,
   SubjectsAddRoute: SubjectsAddRoute,
+  SubjectsIndexRoute: SubjectsIndexRoute,
+  SubjectsIdEditRoute: SubjectsIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
