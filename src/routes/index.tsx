@@ -8,28 +8,21 @@ import { TopBar } from "@/components/TopBar";
 import { loadSubjects } from "@/lib/subjects-store";
 import { loadStreak, loadProfile, computeProgressStats } from "@/lib/progress-store";
 import { loadSchedule } from "@/lib/schedule-store";
-import { aiRecommendations, weeklyHours, achievements } from "@/lib/mock-data";
+import { weeklyHours, achievements, aiRecommendations } from "@/lib/mock-data";
 import type { Subject } from "@/lib/mock-data";
 import type { StudySession } from "@/lib/scheduler";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — StudyFlow" },
-      { name: "description", content: "Your personalized study dashboard." },
-    ],
-  }),
   component: Dashboard,
 });
 
 function Dashboard() {
-  const [subjects,    setSubjects]    = useState<Subject[]>([]);
-  const [todayPlan,   setTodayPlan]   = useState<StudySession[]>([]);
+  const [subjects,  setSubjects]  = useState<Subject[]>([]);
+  const [todayPlan, setTodayPlan] = useState<StudySession[]>([]);
 
   useEffect(() => {
     setSubjects(loadSubjects());
-    const sched = loadSchedule();
-    setTodayPlan(sched.todayPlan);
+    setTodayPlan(loadSchedule().todayPlan);
   }, []);
 
   const profile    = loadProfile();
@@ -37,27 +30,44 @@ function Dashboard() {
   const stats      = computeProgressStats();
   const totalHours = weeklyHours.reduce((s, d) => s + d.hours, 0);
   const earnedBadges = achievements.filter((a) => a.earned);
-  const topReco    = aiRecommendations[0];
 
-  // Use real subjects sorted by daysLeft, fallback to empty
-  const nextExam   = subjects.length > 0
+  const noSubjects   = subjects.length === 0;
+  const nextExam     = subjects.length > 0
     ? subjects.slice().sort((a, b) => a.daysLeft - b.daysLeft)[0]
     : null;
   const examProgress = nextExam
-    ? Math.min(100, ((28 - nextExam.daysLeft) / 28) * 100)
-    : 0;
+    ? Math.min(100, ((28 - nextExam.daysLeft) / 28) * 100) : 0;
 
-  const noSubjects = subjects.length === 0;
+  // Dynamic AI recommendation from real subjects
+  const urgentSubject = nextExam;
+  const recoTitle = urgentSubject
+    ? `Focus on ${urgentSubject.name} today`
+    : "Add your first subject";
+  const recoDesc = urgentSubject
+    ? `Your exam is in ${urgentSubject.daysLeft} day${urgentSubject.daysLeft !== 1 ? "s" : ""} and you're at ${urgentSubject.progress}% completion. ${
+        urgentSubject.progress < 50 ? "You need to pick up the pace!" :
+        urgentSubject.progress < 80 ? "Keep pushing, you're doing well!" :
+        "Almost there — final review time!"
+      }`
+    : "Add subjects with exam dates and StudyFlow will generate your optimal study plan automatically.";
+
+  const getGreeting = () => {
+    const h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 17) return "Good afternoon";
+    return "Good evening";
+  };
 
   return (
     <>
       <TopBar
-        title={`Good evening, ${profile.fullName.split(" ")[0]}`}
-        subtitle={streak.current > 0 ? `You're on a ${streak.current}-day streak. Let's keep it going.` : "Start your first study session today!"}
+        title={`${getGreeting()}, ${profile.fullName.split(" ")[0]}`}
+        subtitle={streak.current > 0
+          ? `You're on a ${streak.current}-day streak. Let's keep it going.`
+          : "Start your first study session today!"}
       />
 
       <div className="p-4 sm:p-6 lg:p-8 space-y-4 max-w-[1400px] mx-auto w-full">
-
         <div className="grid grid-cols-4 gap-3 sm:gap-4 stagger-children">
 
           {/* AI Hero */}
@@ -72,16 +82,15 @@ function Dashboard() {
                 AI Recommendation
               </span>
               <h3 className="font-display text-3xl sm:text-4xl font-bold text-white mt-3 mb-2 leading-[1.05] tracking-tight">
-                {noSubjects ? "Add your first subject" : topReco.title}
+                {recoTitle}
               </h3>
               <p className="text-zinc-100/80 text-sm leading-relaxed">
-                {noSubjects
-                  ? "Add subjects with exam dates and StudyFlow will generate your optimal study plan automatically."
-                  : topReco.description}
+                {recoDesc}
               </p>
               <div className="mt-6 flex gap-2.5">
                 {noSubjects ? (
-                  <Link to="/subjects/add" className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
+                  <Link to="/subjects/add"
+                    className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
                     <Plus className="h-4 w-4" /> Add Subject
                   </Link>
                 ) : (
@@ -89,7 +98,8 @@ function Dashboard() {
                     <button className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
                       <Play className="h-4 w-4" /> Start Flow State
                     </button>
-                    <Link to="/schedule" className="px-4 py-2.5 rounded-xl text-sm font-medium text-white/90 hover:bg-white/10 transition inline-flex items-center gap-1.5">
+                    <Link to="/schedule"
+                      className="px-4 py-2.5 rounded-xl text-sm font-medium text-white/90 hover:bg-white/10 transition inline-flex items-center gap-1.5">
                       Schedule <ArrowRight className="h-4 w-4" />
                     </Link>
                   </>
@@ -98,7 +108,7 @@ function Dashboard() {
             </div>
           </article>
 
-          {/* Streak tile */}
+          {/* Streak */}
           <article className="col-span-1 rounded-2xl p-3 sm:p-4 glass flex flex-col justify-between aspect-square sm:aspect-auto sm:min-h-[110px] hover-lift">
             <div className="flex items-center gap-1.5">
               <Flame className="h-3.5 w-3.5 text-zinc-400" />
@@ -121,7 +131,8 @@ function Dashboard() {
                   </div>
                   <h4 className="text-sm sm:text-base font-bold text-white truncate font-display">{nextExam.name}</h4>
                   <div className="mt-2 w-full max-w-[160px] h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
-                    <div className="bg-gradient-to-r from-zinc-300 to-zinc-400 h-full rounded-full" style={{ width: `${examProgress}%` }} />
+                    <div className="bg-gradient-to-r from-zinc-300 to-zinc-400 h-full rounded-full"
+                      style={{ width: `${examProgress}%` }} />
                   </div>
                 </div>
                 <div className="text-right shrink-0 ml-3">
@@ -156,12 +167,16 @@ function Dashboard() {
             </div>
             {todayPlan.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-4">
-                No sessions yet — <Link to="/subjects/add" className="text-zinc-300 underline">add a subject</Link> to get started.
+                No sessions yet —{" "}
+                <Link to="/subjects/add" className="text-zinc-300 underline">add a subject</Link>{" "}
+                to get started.
               </p>
             ) : (
               <div className="space-y-2.5">
                 {todayPlan.slice(0, 4).map((s, i) => (
-                  <div key={i} className={`flex items-center gap-3 p-2.5 rounded-xl transition ${s.done ? "opacity-50" : "hover:bg-white/[0.03]"}`}>
+                  <div key={i} className={`flex items-center gap-3 p-2.5 rounded-xl transition ${
+                    s.done ? "opacity-50" : "hover:bg-white/[0.03]"
+                  }`}>
                     <div className={`h-9 w-9 shrink-0 rounded-xl grid place-items-center border ${
                       s.priority === "high"   ? "bg-white/10 border-white/20 text-zinc-300" :
                       s.priority === "medium" ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-400" :
@@ -214,7 +229,8 @@ function Dashboard() {
                           <span className={`text-[10px] font-mono shrink-0 ${tones.tx}`}>{s.progress}%</span>
                         </div>
                         <div className="w-full h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
-                          <div className={`${tones.bar} h-full rounded-full transition-all duration-700`} style={{ width: `${s.progress}%` }} />
+                          <div className={`${tones.bar} h-full rounded-full transition-all duration-700`}
+                            style={{ width: `${s.progress}%` }} />
                         </div>
                       </div>
                     </div>
@@ -224,7 +240,7 @@ function Dashboard() {
             )}
           </article>
 
-          {/* Study Hours bar */}
+          {/* Study Hours */}
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift">
             <div className="flex items-center gap-1.5 mb-3">
               <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
@@ -254,7 +270,7 @@ function Dashboard() {
             </div>
           </article>
 
-          {/* Achievement badge */}
+          {/* Achievement */}
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift group">
             <div className="flex items-start gap-3">
               <div className="p-2 bg-white/10 rounded-xl group-hover:scale-110 transition-transform">
@@ -275,7 +291,7 @@ function Dashboard() {
             </div>
           </article>
 
-          {/* Exam Readiness small */}
+          {/* Avg Progress */}
           <article className="col-span-2 rounded-2xl p-4 sm:p-5 glass hover-lift relative overflow-hidden">
             <div className="absolute -top-8 -right-8 h-24 w-24 bg-white/10 blur-2xl rounded-full" />
             <div className="relative flex items-center gap-3">

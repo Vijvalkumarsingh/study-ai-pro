@@ -12,12 +12,6 @@ import {
 import { TrendingUp, Zap, Brain, Target } from "lucide-react";
 
 export const Route = createFileRoute("/analytics")({
-  head: () => ({
-    meta: [
-      { title: "Analytics — StudyAI" },
-      { name: "description", content: "Deep insights into your study hours, performance, and exam readiness." },
-    ],
-  }),
   component: AnalyticsPage,
 });
 
@@ -30,11 +24,11 @@ const tooltipStyle = {
 };
 
 function AnalyticsPage() {
-  const [readiness,    setReadiness]    = useState(0);
-  const [performance,  setPerformance]  = useState<ReturnType<typeof computeSubjectPerformance>>([]);
-  const [trend,        setTrend]        = useState<ReturnType<typeof computeCompletionTrend>>([]);
-  const [insights,     setInsights]     = useState<ReturnType<typeof computeAIInsights> | null>(null);
-  const [weeklyHours,  setWeeklyHours]  = useState<ReturnType<typeof getWeeklyHours>>([]);
+  const [readiness,   setReadiness]   = useState(0);
+  const [performance, setPerformance] = useState<ReturnType<typeof computeSubjectPerformance>>([]);
+  const [trend,       setTrend]       = useState<ReturnType<typeof computeCompletionTrend>>([]);
+  const [insights,    setInsights]    = useState<ReturnType<typeof computeAIInsights> | null>(null);
+  const [weeklyHours, setWeeklyHours] = useState<ReturnType<typeof getWeeklyHours>>([]);
 
   useEffect(() => {
     setReadiness(computeExamReadiness());
@@ -45,10 +39,10 @@ function AnalyticsPage() {
   }, []);
 
   const insightCards = insights ? [
-    { icon: Zap,       title: "Peak Focus",        value: insights.peakFocus,        desc: "Your highest retention window" },
-    { icon: Brain,     title: "Strongest Subject",  value: insights.strongestSubject, desc: "Based on your progress" },
-    { icon: TrendingUp,title: "Best Streak Day",    value: insights.bestStreakDay,    desc: "Historically most productive" },
-    { icon: Target,    title: "Focus Score",        value: insights.focusScore,       desc: "Based on streak & level" },
+    { icon: Zap,        title: "Peak Focus",       value: insights.peakFocus,        desc: "Your highest retention window" },
+    { icon: Brain,      title: "Strongest Subject", value: insights.strongestSubject, desc: "Based on your progress" },
+    { icon: TrendingUp, title: "Best Streak Day",   value: insights.bestStreakDay,    desc: "Historically most productive" },
+    { icon: Target,     title: "Focus Score",       value: insights.focusScore,       desc: "Based on streak & level" },
   ] : [];
 
   return (
@@ -56,7 +50,6 @@ function AnalyticsPage() {
       <TopBar title="Analytics" subtitle="Deep insights into your learning patterns and exam readiness." />
       <div className="p-6 lg:p-8 space-y-6 animate-fade-in-up">
 
-        {/* Insight cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {insightCards.map((i) => {
             const Icon = i.icon;
@@ -73,7 +66,6 @@ function AnalyticsPage() {
           })}
         </div>
 
-        {/* Hours chart + readiness */}
         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
           <div className="rounded-2xl glass shadow-card p-6">
             <div className="flex items-center justify-between mb-5">
@@ -106,7 +98,6 @@ function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Exam readiness radial */}
           <div className="rounded-2xl glass-strong shadow-card p-6 relative overflow-hidden">
             <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-primary/30 blur-3xl" />
             <h3 className="font-display text-lg font-semibold">Exam Readiness</h3>
@@ -133,7 +124,6 @@ function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Subject perf + completion trend */}
         <div className="grid lg:grid-cols-2 gap-6">
           <div className="rounded-2xl glass shadow-card p-6">
             <h3 className="font-display text-lg font-semibold mb-1">Subject Performance</h3>
@@ -182,7 +172,6 @@ function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Hours invested */}
         <div className="rounded-2xl glass shadow-card p-6">
           <h3 className="font-display text-lg font-semibold mb-5">Hours invested · this week</h3>
           {performance.length === 0 ? (
