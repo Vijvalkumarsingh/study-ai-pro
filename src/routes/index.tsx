@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
 import {
   Flame, Calendar, Zap, ArrowRight, Plus, Play, Trophy,
   BookOpen, Brain, Sparkles, BarChart3, Target, Clock, TrendingUp,
@@ -9,36 +8,35 @@ import { loadSubjects } from "@/lib/subjects-store";
 import { loadStreak, loadProfile, computeProgressStats } from "@/lib/progress-store";
 import { loadSchedule } from "@/lib/schedule-store";
 import { weeklyHours, achievements, aiRecommendations } from "@/lib/mock-data";
-import type { Subject } from "@/lib/mock-data";
-import type { StudySession } from "@/lib/scheduler";
+import { useStudyAI } from "@/lib/store-events";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
 });
 
+const DEFAULT_PROFILE = { fullName: "Vijval Kumar", initials: "VK", level: 1, xp: 0, xpToNext: 1000 };
+const DEFAULT_STREAK  = { current: 0, longest: 0, lastStudiedDate: "" };
+const DEFAULT_STATS   = { avgCompletion: 0, totalChaptersDone: 0, totalChapters: 0 };
+
 function Dashboard() {
-  const [subjects,  setSubjects]  = useState<Subject[]>([]);
-  const [todayPlan, setTodayPlan] = useState<StudySession[]>([]);
+  // ── All data is real-time via useStudyAI ──────────────────────────────────
+  // Fall back to safe defaults on first SSR render, before localStorage is available.
+  const subjects  = useStudyAI(loadSubjects) ?? [];
+  const profile   = useStudyAI(loadProfile) ?? DEFAULT_PROFILE;
+  const streak    = useStudyAI(loadStreak) ?? DEFAULT_STREAK;
+  const stats     = useStudyAI(computeProgressStats) ?? DEFAULT_STATS;
+  const todayPlan = useStudyAI(() => loadSchedule().todayPlan) ?? [];
 
-  useEffect(() => {
-    setSubjects(loadSubjects());
-    setTodayPlan(loadSchedule().todayPlan);
-  }, []);
-
-  const profile    = loadProfile();
-  const streak     = loadStreak();
-  const stats      = computeProgressStats();
-  const totalHours = weeklyHours.reduce((s, d) => s + d.hours, 0);
+  const totalHours   = weeklyHours.reduce((s, d) => s + d.hours, 0);
   const earnedBadges = achievements.filter((a) => a.earned);
-
   const noSubjects   = subjects.length === 0;
+
   const nextExam     = subjects.length > 0
     ? subjects.slice().sort((a, b) => a.daysLeft - b.daysLeft)[0]
     : null;
   const examProgress = nextExam
     ? Math.min(100, ((28 - nextExam.daysLeft) / 28) * 100) : 0;
 
-  // Dynamic AI recommendation from real subjects
   const urgentSubject = nextExam;
   const recoTitle = urgentSubject
     ? `Focus on ${urgentSubject.name} today`
@@ -66,7 +64,6 @@ function Dashboard() {
           ? `You're on a ${streak.current}-day streak. Let's keep it going.`
           : "Start your first study session today!"}
       />
-
       <div className="p-4 sm:p-6 lg:p-8 space-y-4 max-w-[1400px] mx-auto w-full">
         <div className="grid grid-cols-4 gap-3 sm:gap-4 stagger-children">
 
@@ -84,18 +81,16 @@ function Dashboard() {
               <h3 className="font-display text-3xl sm:text-4xl font-bold text-white mt-3 mb-2 leading-[1.05] tracking-tight">
                 {recoTitle}
               </h3>
-              <p className="text-zinc-100/80 text-sm leading-relaxed">
-                {recoDesc}
-              </p>
+              <p className="text-zinc-100/80 text-sm leading-relaxed">{recoDesc}</p>
               <div className="mt-6 flex gap-2.5">
                 {noSubjects ? (
                   <Link to="/subjects/add"
-                    className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
+                    className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg inline-flex items-center gap-2">
                     <Plus className="h-4 w-4" /> Add Subject
                   </Link>
                 ) : (
                   <>
-                    <button className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg active:scale-95 transition-transform inline-flex items-center gap-2">
+                    <button className="px-5 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold shadow-lg inline-flex items-center gap-2">
                       <Play className="h-4 w-4" /> Start Flow State
                     </button>
                     <Link to="/schedule"
@@ -167,16 +162,12 @@ function Dashboard() {
             </div>
             {todayPlan.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-4">
-                No sessions yet —{" "}
-                <Link to="/subjects/add" className="text-zinc-300 underline">add a subject</Link>{" "}
-                to get started.
+                No sessions yet — <Link to="/subjects/add" className="text-zinc-300 underline">add a subject</Link> to get started.
               </p>
             ) : (
               <div className="space-y-2.5">
                 {todayPlan.slice(0, 4).map((s, i) => (
-                  <div key={i} className={`flex items-center gap-3 p-2.5 rounded-xl transition ${
-                    s.done ? "opacity-50" : "hover:bg-white/[0.03]"
-                  }`}>
+                  <div key={i} className={`flex items-center gap-3 p-2.5 rounded-xl transition ${s.done ? "opacity-50" : "hover:bg-white/[0.03]"}`}>
                     <div className={`h-9 w-9 shrink-0 rounded-xl grid place-items-center border ${
                       s.priority === "high"   ? "bg-white/10 border-white/20 text-zinc-300" :
                       s.priority === "medium" ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-400" :
@@ -191,7 +182,7 @@ function Dashboard() {
                     <div className="text-right shrink-0">
                       <div className="text-[10px] font-mono text-zinc-400">{s.time}</div>
                       <div className={`text-[9px] uppercase font-bold tracking-wider ${
-                        s.priority === "high"   ? "text-zinc-300" :
+                        s.priority === "high" ? "text-zinc-300" :
                         s.priority === "medium" ? "text-zinc-400" : "text-zinc-500"
                       }`}>{s.priority}</div>
                     </div>
@@ -248,8 +239,8 @@ function Dashboard() {
             </div>
             <div className="flex items-end gap-1 h-14">
               {weeklyHours.map((d, i) => {
-                const max    = Math.max(...weeklyHours.map((h) => h.hours));
-                const h      = (d.hours / max) * 100;
+                const max = Math.max(...weeklyHours.map((h) => h.hours));
+                const h   = (d.hours / max) * 100;
                 const isPeak = d.hours === max;
                 return (
                   <div key={i}
@@ -279,9 +270,7 @@ function Dashboard() {
               <div className="min-w-0 flex-1">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">Latest Badge</span>
                 <h4 className="text-xs font-bold text-white mt-0.5 truncate font-display">{earnedBadges[1]?.name}</h4>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2 leading-snug">
-                  {earnedBadges.length} of {achievements.length} earned
-                </p>
+                <p className="text-[10px] text-slate-500 mt-0.5">{earnedBadges.length} of {achievements.length} earned</p>
               </div>
             </div>
             <div className="flex gap-1.5 mt-3">

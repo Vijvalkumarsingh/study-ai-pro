@@ -1,3 +1,4 @@
+import { emitUpdate } from "./store-events";
 import { loadSubjects } from "./subjects-store";
 
 const PROGRESS_KEY = "studyai:progress";
@@ -38,6 +39,7 @@ export function loadChapterProgress(): ChapterEntry[] {
 
 function saveChapterProgress(entries: ChapterEntry[]): void {
   localStorage.setItem(PROGRESS_KEY, JSON.stringify(entries));
+  emitUpdate();
 }
 
 export function toggleChapter(subjectId: string, chapterIndex: number): void {
@@ -128,6 +130,7 @@ function updateStreak(): void {
   yesterday.setDate(yesterday.getDate() - 1);
   const yStr       = yesterday.toISOString().split("T")[0];
   const newCurrent = streak.lastStudiedDate === yStr ? streak.current + 1 : 1;
+  emitUpdate();
   localStorage.setItem(STREAK_KEY, JSON.stringify({
     current: newCurrent,
     longest: Math.max(newCurrent, streak.longest),
@@ -145,6 +148,7 @@ export function loadProfile(): ProfileData {
 
 export function saveProfile(data: Partial<ProfileData>): void {
   localStorage.setItem(PROFILE_KEY, JSON.stringify({ ...loadProfile(), ...data }));
+  emitUpdate();
 }
 
 export function computeProgressStats() {

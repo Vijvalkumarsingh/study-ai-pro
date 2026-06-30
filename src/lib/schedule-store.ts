@@ -5,7 +5,9 @@ const STORAGE_KEY = "studyai:schedule";
 
 export function loadSchedule(): ScheduleResult {
   const result = generateSchedule(loadSubjects());
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(result));
+  if (typeof window !== "undefined") {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(result));
+  }
   return result;
 }
 

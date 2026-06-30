@@ -1,3 +1,4 @@
+import { emitUpdate } from "./store-events";
 import type { Difficulty, Subject } from "./mock-data";
 
 const STORAGE_KEY = "studyai:subjects";
@@ -55,6 +56,7 @@ export function loadSubjects(): Subject[] {
 
 function saveSubjects(subjects: Subject[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(subjects));
+  emitUpdate();
 }
 
 export function createSubject(data: SubjectFormData): Subject {
