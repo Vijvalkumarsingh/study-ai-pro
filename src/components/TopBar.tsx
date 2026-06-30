@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Bell, Search, Moon, Sun, Command, X, BookOpen, Calendar } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { loadSubjects } from "@/lib/subjects-store";
+import { getStoredTheme, applyTheme, type Theme } from "@/lib/theme-store";
 import type { Subject } from "@/lib/mock-data";
 
 interface Notification {
@@ -60,7 +61,9 @@ export function TopBar({ title, subtitle }: { title: string; subtitle?: string }
   const [results,   setResults]   = useState<Subject[]>([]);
   const [showSearch, setShowSearch] = useState(false);
   const [showBell,   setShowBell]   = useState(false);
-  const [dark,       setDark]       = useState(true);
+  const [theme,      setTheme]      = useState<Theme>(() =>
+    typeof window === "undefined" ? "dark" : getStoredTheme()
+  );
   const [notifs,     setNotifs]     = useState<Notification[]>([]);
   const searchRef   = useRef<HTMLDivElement>(null);
   const bellRef     = useRef<HTMLDivElement>(null);
@@ -112,9 +115,9 @@ export function TopBar({ title, subtitle }: { title: string; subtitle?: string }
 
   // Theme toggle
   function toggleTheme() {
-    setDark((d) => {
-      const next = !d;
-      document.documentElement.classList.toggle("dark", next);
+    setTheme((t) => {
+      const next: Theme = t === "dark" ? "light" : "dark";
+      applyTheme(next);
       return next;
     });
   }
@@ -242,7 +245,7 @@ export function TopBar({ title, subtitle }: { title: string; subtitle?: string }
             onClick={toggleTheme}
             className="grid h-10 w-10 place-items-center rounded-lg glass hover:bg-white/10 transition-colors"
             title="Toggle theme">
-            {dark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+            {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
         </div>
       </div>

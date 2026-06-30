@@ -104,6 +104,21 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Apply saved theme before paint to avoid a flash of the wrong theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var t = localStorage.getItem("studyai:theme");
+                  document.documentElement.classList.add(t === "light" ? "light" : "dark");
+                } catch (e) {
+                  document.documentElement.classList.add("dark");
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -118,7 +133,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="dark flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full">
         <AppSidebar />
         <main className="flex-1 min-w-0 flex flex-col">
           <Outlet />
