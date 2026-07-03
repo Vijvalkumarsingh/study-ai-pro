@@ -98,7 +98,7 @@ function ProgressPage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+            <div className="rounded-xl border border-white/10 bg-white/2 p-4">
               <div className="text-xs text-muted-foreground mb-1">🔥 Current Streak</div>
               <div className="font-display text-3xl font-bold gradient-text">{streak.current} days</div>
               <div className="text-xs text-muted-foreground mt-1">Best: {streak.longest} days</div>
@@ -112,7 +112,7 @@ function ProgressPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {achievements.map((a) => (
               <div key={a.name} className={`relative rounded-2xl p-4 text-center transition ${
-                a.earned ? "glass hover-lift" : "bg-white/[0.02] border border-white/5 opacity-50"
+                a.earned ? "glass hover-lift" : "bg-white/2 border border-white/5 opacity-50"
               }`}>
                 <div className="text-4xl mb-2">{a.icon}</div>
                 <div className="font-display font-semibold text-sm">{a.name}</div>

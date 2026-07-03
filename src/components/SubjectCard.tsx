@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { BookOpen, Calendar, Edit2, Trash2, BarChart2 } from "lucide-react";
 import type { Subject } from "@/lib/mock-data";
-import { deleteSubject } from "@/lib/subjects-store";
+import { deleteSubject, createSubject } from "@/lib/subjects-store";
+import { Toast } from "@/components/Toast";
 
 interface SubjectCardProps {
   subject: Subject;
@@ -19,16 +20,29 @@ export function SubjectCard({ subject, onDeleted }: SubjectCardProps) {
   const diffClass = difficultyColors[subject.difficulty] ?? difficultyColors["Medium"];
 
   function handleDelete() {
-    if (confirm(`Delete "${subject.name}"? This cannot be undone.`)) {
-      deleteSubject(subject.id);
-      onDeleted();
-    }
+    // Snapshot the subject before deleting so we can restore it on undo
+    const snapshot = { ...subject };
+    deleteSubject(subject.id);
+    onDeleted();
+
+    Toast.deletedSubject(subject.name, () => {
+      // Restore the subject by re-creating it with the same data
+      // (id will be new but all fields are restored)
+      createSubject({
+        name:         snapshot.name,
+        examDate:     snapshot.examDate,
+        difficulty:   snapshot.difficulty,
+        chapters:     Array.from({ length: snapshot.totalChapters }, (_, i) => `Chapter ${i + 1}`),
+        hoursPerDay:  Math.round(snapshot.targetHours / snapshot.totalChapters) || 2,
+      });
+      onDeleted(); // refresh the list
+    });
   }
 
   return (
     <article className="relative rounded-2xl glass shadow-card p-5 flex flex-col gap-4 hover-lift group">
       <div className="flex items-start gap-3">
-        <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${subject.color} text-white font-display font-semibold shadow-glow`}>
+        <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-linear-to-br ${subject.color} text-white font-display font-semibold shadow-glow`}>
           {initials}
         </div>
         <div className="min-w-0 flex-1">
@@ -66,7 +80,7 @@ export function SubjectCard({ subject, onDeleted }: SubjectCardProps) {
       </div>
 
       <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
-        <div className={`h-full rounded-full bg-gradient-to-r ${subject.color} transition-all duration-700`}
+        <div className={`h-full rounded-full bg-linear-to-r ${subject.color} transition-all duration-700`}
           style={{ width: `${subject.progress}%` }} />
       </div>
     </article>
@@ -77,7 +91,7 @@ function Stat({ icon, label, value, accent = "text-foreground" }: {
   icon: React.ReactNode; label: string; value: string; accent?: string;
 }) {
   return (
-    <div className="rounded-lg bg-white/[0.03] py-2 px-1">
+    <div className="rounded-lg bg-white/3 py-2 px-1">
       <div className={`font-display font-bold text-sm ${accent}`}>{value}</div>
       <div className="flex items-center justify-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">
         {icon}{label}

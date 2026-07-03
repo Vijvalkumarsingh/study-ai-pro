@@ -3,6 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { BookOpen, Calendar, ChevronDown, Clock, Hash, Save, Sparkles, X } from "lucide-react";
 import type { Difficulty, Subject } from "@/lib/mock-data";
 import { createSubject, updateSubject, type SubjectFormData } from "@/lib/subjects-store";
+import { Toast } from "@/components/Toast";
 
 interface SubjectFormProps {
   subject?: Subject;
@@ -53,8 +54,13 @@ export function SubjectForm({ subject }: SubjectFormProps) {
     e.preventDefault();
     if (!validate()) return;
     const data: SubjectFormData = { name: name.trim(), examDate, difficulty, chapters, hoursPerDay: hours };
-    if (isEdit && subject) updateSubject(subject.id, data);
-    else createSubject(data);
+    if (isEdit && subject) {
+      updateSubject(subject.id, data);
+      Toast.success("Subject updated!");
+    } else {
+      createSubject(data);
+      Toast.success("Subject added!", "Your study schedule has been updated.");
+    }
     navigate({ to: "/subjects" });
   }
 
@@ -73,7 +79,7 @@ export function SubjectForm({ subject }: SubjectFormProps) {
           <div className="grid sm:grid-cols-2 gap-4">
             <Field label="Exam Date" icon={Calendar} error={errors.examDate}>
               <input type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)}
-                className="w-full bg-transparent outline-none text-sm text-foreground [color-scheme:dark]" />
+                className="w-full bg-transparent outline-none text-sm text-foreground scheme-dark" />
             </Field>
             <Field label="Difficulty" icon={Sparkles}>
               <select value={difficulty} onChange={(e) => setDifficulty(e.target.value as Difficulty)}
@@ -165,7 +171,7 @@ function Field({ label, icon: Icon, error, children }: {
   return (
     <label className="block">
       <span className="text-xs text-muted-foreground">{label}</span>
-      <div className={`mt-1.5 flex items-center gap-2 rounded-xl border px-3.5 h-11 focus-within:border-primary/50 transition bg-white/[0.03] ${error ? "border-zinc-500/50" : "border-white/10"}`}>
+      <div className={`mt-1.5 flex items-center gap-2 rounded-xl border px-3.5 h-11 focus-within:border-primary/50 transition bg-white/3 ${error ? "border-zinc-500/50" : "border-white/10"}`}>
         <Icon className="h-4 w-4 text-muted-foreground shrink-0" />
         {children}
       </div>
@@ -176,7 +182,7 @@ function Field({ label, icon: Icon, error, children }: {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg bg-white/[0.03] py-2">
+    <div className="rounded-lg bg-white/3 py-2">
       <div className="font-display font-bold">{value}</div>
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
     </div>

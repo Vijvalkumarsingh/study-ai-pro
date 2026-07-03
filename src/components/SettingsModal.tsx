@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, Save, Trash2, RotateCcw, User } from "lucide-react";
 import { loadProfile, saveProfile, type ProfileData } from "@/lib/progress-store";
+import { Toast } from "@/components/Toast";
 
 interface SettingsModalProps {
   open: boolean;
@@ -9,7 +10,6 @@ interface SettingsModalProps {
 
 export function SettingsModal({ open, onClose }: SettingsModalProps) {
   const [profile, setProfile] = useState<ProfileData>(loadProfile);
-  const [saved,   setSaved]   = useState(false);
 
   if (!open) return null;
 
@@ -19,8 +19,8 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
       ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
       : parts[0]?.slice(0, 2).toUpperCase() ?? "VK";
     saveProfile({ fullName: profile.fullName, initials });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    Toast.settingsSaved();
+    onClose();
   }
 
   function handleClearProgress() {
@@ -63,7 +63,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
 
           <label className="block">
             <span className="text-xs text-muted-foreground">Full Name</span>
-            <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-white/10 px-3.5 h-11 bg-white/[0.03] focus-within:border-primary/50 transition">
+            <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-white/10 px-3.5 h-11 bg-white/3 focus-within:border-primary/50 transition">
               <input
                 value={profile.fullName}
                 onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
@@ -73,7 +73,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
             </div>
           </label>
 
-          <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 space-y-2">
+          <div className="rounded-xl border border-white/5 bg-white/2 px-4 py-3 space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Level</span>
               <span className="font-display font-bold">{profile.level}</span>
@@ -98,7 +98,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
             className="w-full inline-flex items-center justify-center gap-2 rounded-xl gradient-primary px-5 py-2.5 text-sm font-medium text-white shadow-glow hover:opacity-90 transition"
           >
             <Save className="h-4 w-4" />
-            {saved ? "Saved!" : "Save Profile"}
+            Save Profile
           </button>
         </div>
 
@@ -106,22 +106,17 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
 
         <div className="space-y-3">
           <div className="text-xs text-muted-foreground uppercase tracking-wider">Data Management</div>
-          <button
-            onClick={handleClearProgress}
-            className="w-full flex items-center gap-3 rounded-xl border border-white/10 px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition"
-          >
+          <button onClick={handleClearProgress}
+            className="w-full flex items-center gap-3 rounded-xl border border-white/10 px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition">
             <RotateCcw className="h-4 w-4 shrink-0" />
             Reset all progress (keep subjects)
           </button>
-          <button
-            onClick={handleClearAll}
-            className="w-full flex items-center gap-3 rounded-xl border border-zinc-500/30 px-4 py-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-500/10 transition"
-          >
+          <button onClick={handleClearAll}
+            className="w-full flex items-center gap-3 rounded-xl border border-zinc-500/30 px-4 py-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-500/10 transition">
             <Trash2 className="h-4 w-4 shrink-0" />
             Delete all data permanently
           </button>
         </div>
-
       </div>
     </div>
   );
