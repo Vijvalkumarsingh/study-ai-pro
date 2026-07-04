@@ -143,4 +143,4 @@ function RootComponent() {
       <Toaster position="bottom-right" richColors />
     </QueryClientProvider>
   );
-}
+} 
