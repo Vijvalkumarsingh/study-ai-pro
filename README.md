@@ -4,6 +4,8 @@ An AI-powered study planner built with React and TypeScript. Helps students mana
 
 Built as a portfolio project to demonstrate full-stack frontend development skills including component architecture, state management, algorithm design, and UI/UX polish.
 
+**🔗 Live Demo:** [study-ai-pro-eta.vercel.app](https://study-ai-pro-eta.vercel.app/)
+
 ---
 
 ## Screenshots
@@ -65,6 +67,7 @@ Built as a portfolio project to demonstrate full-stack frontend development skil
 - Export all data as a JSON backup file
 - Import from a JSON backup to fully restore your data
 - Reset progress or delete all data from the Settings modal
+- Profile name defaults to "Student" for new visitors — editable anytime from Settings
 
 ---
 
