@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
 });
 
-const DEFAULT_PROFILE = { fullName: "Vijval Kumar", initials: "VK", level: 1, xp: 0, xpToNext: 1000 };
+const DEFAULT_PROFILE = { fullName: "Student", initials: "ST", level: 1, xp: 0, xpToNext: 1000 };
 const DEFAULT_STREAK  = { current: 0, longest: 0, lastStudiedDate: "" };
 const DEFAULT_STATS   = { avgCompletion: 0, totalChaptersDone: 0, totalChapters: 0 };
 
@@ -64,17 +64,17 @@ function Dashboard() {
           ? `You're on a ${streak.current}-day streak. Let's keep it going.`
           : "Start your first study session today!"}
       />
-      <div className="p-4 sm:p-6 lg:p-8 space-y-4 max-w-[1400px] mx-auto w-full">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-4 max-w-350 mx-auto w-full">
         <div className="grid grid-cols-4 gap-3 sm:gap-4 stagger-children">
 
           {/* AI Hero */}
-          <article className="col-span-4 relative overflow-hidden rounded-[2rem] p-6 sm:p-8 shadow-hero"
+          <article className="col-span-4 relative overflow-hidden rounded-4xl p-6 sm:p-8 shadow-hero"
             style={{ background: "var(--gradient-hero)" }}>
             <div className="absolute -bottom-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
             <div className="absolute top-5 right-6 text-white/15">
               <Zap className="w-12 h-12 sm:w-16 sm:h-16" strokeWidth={1.5} />
             </div>
-            <div className="relative z-10 max-w-[420px]">
+            <div className="relative z-10 max-w-105">
               <span className="inline-block px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg text-[10px] font-bold uppercase tracking-wider text-zinc-100">
                 AI Recommendation
               </span>
@@ -104,7 +104,7 @@ function Dashboard() {
           </article>
 
           {/* Streak */}
-          <article className="col-span-1 rounded-2xl p-3 sm:p-4 glass flex flex-col justify-between aspect-square sm:aspect-auto sm:min-h-[110px] hover-lift">
+          <article className="col-span-1 rounded-2xl p-3 sm:p-4 glass flex flex-col justify-between aspect-square sm:aspect-auto sm:min-h-27.5 hover-lift">
             <div className="flex items-center gap-1.5">
               <Flame className="h-3.5 w-3.5 text-zinc-400" />
               <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-zinc-500">Streak</span>
@@ -125,8 +125,8 @@ function Dashboard() {
                     <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">Next Exam</span>
                   </div>
                   <h4 className="text-sm sm:text-base font-bold text-white truncate font-display">{nextExam.name}</h4>
-                  <div className="mt-2 w-full max-w-[160px] h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
-                    <div className="bg-gradient-to-r from-zinc-300 to-zinc-400 h-full rounded-full"
+                  <div className="mt-2 w-full max-w-40 h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
+                    <div className="bg-linear-to-r from-zinc-300 to-zinc-400 h-full rounded-full"
                       style={{ width: `${examProgress}%` }} />
                   </div>
                 </div>
@@ -167,7 +167,7 @@ function Dashboard() {
             ) : (
               <div className="space-y-2.5">
                 {todayPlan.slice(0, 4).map((s, i) => (
-                  <div key={i} className={`flex items-center gap-3 p-2.5 rounded-xl transition ${s.done ? "opacity-50" : "hover:bg-white/[0.03]"}`}>
+                  <div key={i} className={`flex items-center gap-3 p-2.5 rounded-xl transition ${s.done ? "opacity-50" : "hover:bg-white/3"}`}>
                     <div className={`h-9 w-9 shrink-0 rounded-xl grid place-items-center border ${
                       s.priority === "high"   ? "bg-white/10 border-white/20 text-zinc-300" :
                       s.priority === "medium" ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-400" :
@@ -323,7 +323,7 @@ function Dashboard() {
               <span className="text-xs text-slate-500">/ {todayPlan.reduce((s, x) => s + x.durationHours, 0).toFixed(1)}h</span>
             </div>
             <div className="mt-3 h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-zinc-400 to-zinc-500 rounded-full"
+              <div className="h-full bg-linear-to-r from-zinc-400 to-zinc-500 rounded-full"
                 style={{ width: todayPlan.length > 0 ? `${(todayPlan.filter(s => s.done).length / todayPlan.length) * 100}%` : "0%" }} />
             </div>
             <div className="text-[10px] text-slate-500 mt-2">
@@ -346,7 +346,7 @@ function Dashboard() {
             </div>
             <div className="space-y-2.5">
               {aiRecommendations.slice(1).map((r, i) => (
-                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/30 transition">
+                <div key={i} className="p-3 rounded-xl bg-white/2 border border-white/5 hover:border-white/30 transition">
                   <div className="text-xs font-bold text-slate-200">{r.title}</div>
                   <div className="text-[10px] text-slate-500 mt-1 leading-relaxed">{r.description}</div>
                 </div>
@@ -367,7 +367,7 @@ function Dashboard() {
                 { label: "Analytics",   icon: BarChart3, to: "/analytics" },
               ].map((a) => (
                 <Link key={a.label} to={a.to}
-                  className="group flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/30 hover:bg-white/5 transition">
+                  className="group flex items-center gap-2.5 p-3 rounded-xl bg-white/2 border border-white/5 hover:border-white/30 hover:bg-white/5 transition">
                   <div className="h-8 w-8 shrink-0 rounded-lg bg-white/10 border border-white/20 grid place-items-center text-zinc-400 group-hover:scale-110 transition-transform">
                     <a.icon className="h-3.5 w-3.5" />
                   </div>

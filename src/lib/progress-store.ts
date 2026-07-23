@@ -143,7 +143,7 @@ export function loadProfile(): ProfileData {
     const raw = localStorage.getItem(PROFILE_KEY);
     if (raw) return JSON.parse(raw);
   } catch {}
-  return { fullName: "Vijval Kumar", initials: "VK", level: 1, xp: 0, xpToNext: 1000 };
+  return { fullName: "Student", initials: "ST", level: 1, xp: 0, xpToNext: 1000 };
 }
 
 export function saveProfile(data: Partial<ProfileData>): void {

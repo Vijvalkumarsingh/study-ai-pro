@@ -16,7 +16,7 @@ const nav = [
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
 ];
 
-const DEFAULT_PROFILE: ProfileData = { fullName: "Vijval Kumar", initials: "VK", level: 1, xp: 0, xpToNext: 1000 };
+const DEFAULT_PROFILE: ProfileData = { fullName: "Student", initials: "ST", level: 1, xp: 0, xpToNext: 1000 };
 const DEFAULT_STREAK: StreakData   = { current: 0, longest: 0, lastStudiedDate: "" };
 
 export function AppSidebar() {
